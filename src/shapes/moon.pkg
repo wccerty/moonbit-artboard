@@ -1,0 +1,4 @@
+import {
+  "wccerty/moonbit-artboard/src/math",
+  "moonbitlang/core/math" @cmath,
+}
