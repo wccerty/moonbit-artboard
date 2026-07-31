@@ -4,3 +4,14 @@ target/
 target
 .mooncakes/
 .moonagent/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.py
+*.html
+*.log
+.githooks/
+AGENTS.md
+OSC2026_August_Hackathon_Application.md
+walkthrough.md
