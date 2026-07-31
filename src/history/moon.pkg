@@ -1,0 +1,5 @@
+import {
+  "wccerty/moonbit-artboard/src/math",
+  "wccerty/moonbit-artboard/src/shapes",
+  "wccerty/moonbit-artboard/src/scenegraph",
+}
