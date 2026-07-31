@@ -13,20 +13,37 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup MoonBit Environment
-        uses: moonbitlang/setup-moonbit@v1
+      - name: Install MoonBit
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> $GITHUB_PATH
 
       - name: Verify MoonBit Version
-        run: moon version
+        run: |
+          export PATH="$HOME/.moon/bin:$PATH"
+          moon version
+
+      - name: Update Dependencies
+        run: |
+          export PATH="$HOME/.moon/bin:$PATH"
+          moon update
 
       - name: Check Code Formatting
-        run: moon fmt --check
+        run: |
+          export PATH="$HOME/.moon/bin:$PATH"
+          moon fmt --check
 
       - name: Check Package Interface
-        run: moon info
+        run: |
+          export PATH="$HOME/.moon/bin:$PATH"
+          moon info
 
       - name: Run Test Suite
-        run: moon test
+        run: |
+          export PATH="$HOME/.moon/bin:$PATH"
+          moon test
 
       - name: Execute Main Integration Demo
-        run: moon run src/main
+        run: |
+          export PATH="$HOME/.moon/bin:$PATH"
+          moon run src/main
