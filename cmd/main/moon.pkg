@@ -1,0 +1,5 @@
+// import {
+//   "wccerty/moonbit-artboard" @lib,
+// }
+
+pkgtype(kind: "executable")
