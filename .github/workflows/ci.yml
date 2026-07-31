@@ -1,0 +1,32 @@
+name: CI Test & Build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup MoonBit Environment
+        uses: moonbitlang/setup-moonbit@v1
+
+      - name: Verify MoonBit Version
+        run: moon version
+
+      - name: Check Code Formatting
+        run: moon fmt --check
+
+      - name: Check Package Interface
+        run: moon info
+
+      - name: Run Test Suite
+        run: moon test
+
+      - name: Execute Main Integration Demo
+        run: moon run src/main
