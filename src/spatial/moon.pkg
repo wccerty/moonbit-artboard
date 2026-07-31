@@ -1,0 +1,8 @@
+import {
+  "wccerty/moonbit-artboard/src/math",
+  "wccerty/moonbit-artboard/src/scenegraph",
+}
+
+import {
+  "wccerty/moonbit-artboard/src/shapes",
+} for "test"
