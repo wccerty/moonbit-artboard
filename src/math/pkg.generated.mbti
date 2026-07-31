@@ -1,0 +1,160 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wccerty/moonbit-artboard/src/math"
+
+import {
+  "moonbitlang/core/debug",
+}
+
+// Values
+pub fn evaluate_b_spline(Vec2, Vec2, Vec2, Vec2, Double) -> Vec2
+
+pub fn evaluate_catmull_rom(Vec2, Vec2, Vec2, Vec2, Double) -> Vec2
+
+pub fn interpolate_catmull_rom_spline(Array[Vec2], Int) -> Array[Vec2]
+
+pub fn triangulate_polygon(Array[Vec2]) -> Array[Triangle2D]
+
+// Errors
+
+// Types and methods
+pub struct CubicBezier {
+  p0 : Vec2
+  p1 : Vec2
+  p2 : Vec2
+  p3 : Vec2
+} derive(Eq, @debug.Debug)
+pub fn CubicBezier::approximate_length(Self, Int) -> Double
+pub fn CubicBezier::bounds(Self) -> Rect2D
+pub fn CubicBezier::evaluate(Self, Double) -> Vec2
+pub fn CubicBezier::new(Vec2, Vec2, Vec2, Vec2) -> Self
+pub fn CubicBezier::split(Self, Double) -> (Self, Self)
+pub fn CubicBezier::tangent(Self, Double) -> Vec2
+
+pub struct Matrix2D {
+  a : Double
+  b : Double
+  c : Double
+  d : Double
+  tx : Double
+  ty : Double
+} derive(Eq, @debug.Debug)
+pub fn Matrix2D::decompose(Self) -> MatrixDecomposition
+pub fn Matrix2D::determinant(Self) -> Double
+pub fn Matrix2D::identity() -> Self
+pub fn Matrix2D::invert(Self) -> Self?
+pub fn Matrix2D::multiply(Self, Self) -> Self
+pub fn Matrix2D::new(Double, Double, Double, Double, Double, Double) -> Self
+pub fn Matrix2D::rotation(Double) -> Self
+pub fn Matrix2D::rotation_at(Double, Vec2) -> Self
+pub fn Matrix2D::scaling(Double, Double) -> Self
+pub fn Matrix2D::scaling_at(Double, Double, Vec2) -> Self
+pub fn Matrix2D::shearing(Double, Double) -> Self
+pub fn Matrix2D::transform_bounds(Self, Rect2D) -> Rect2D
+pub fn Matrix2D::transform_point(Self, Vec2) -> Vec2
+pub fn Matrix2D::transform_vector(Self, Vec2) -> Vec2
+pub fn Matrix2D::translation(Double, Double) -> Self
+
+pub(all) struct Matrix4x4 {
+  m00 : Double
+  m01 : Double
+  m02 : Double
+  m03 : Double
+  m10 : Double
+  m11 : Double
+  m12 : Double
+  m13 : Double
+  m20 : Double
+  m21 : Double
+  m22 : Double
+  m23 : Double
+  m30 : Double
+  m31 : Double
+  m32 : Double
+  m33 : Double
+} derive(Eq, @debug.Debug)
+pub fn Matrix4x4::identity() -> Self
+pub fn Matrix4x4::multiply(Self, Self) -> Self
+pub fn Matrix4x4::rotation_x(Double) -> Self
+pub fn Matrix4x4::rotation_y(Double) -> Self
+pub fn Matrix4x4::rotation_z(Double) -> Self
+pub fn Matrix4x4::scaling(Double, Double, Double) -> Self
+pub fn Matrix4x4::translation(Double, Double, Double) -> Self
+
+pub struct MatrixDecomposition {
+  translation : Vec2
+  scale : Vec2
+  rotation : Double
+  skew : Vec2
+} derive(Eq, @debug.Debug)
+
+pub struct QuadraticBezier {
+  p0 : Vec2
+  p1 : Vec2
+  p2 : Vec2
+} derive(Eq, @debug.Debug)
+pub fn QuadraticBezier::evaluate(Self, Double) -> Vec2
+pub fn QuadraticBezier::new(Vec2, Vec2, Vec2) -> Self
+pub fn QuadraticBezier::to_cubic(Self) -> CubicBezier
+
+pub struct Rect2D {
+  min_x : Double
+  min_y : Double
+  max_x : Double
+  max_y : Double
+} derive(Eq, @debug.Debug)
+pub fn Rect2D::center(Self) -> Vec2
+pub fn Rect2D::contains_point(Self, Vec2) -> Bool
+pub fn Rect2D::contains_rect(Self, Self) -> Bool
+pub fn Rect2D::corners(Self) -> Array[Vec2]
+pub fn Rect2D::empty() -> Self
+pub fn Rect2D::expand(Self, Double) -> Self
+pub fn Rect2D::from_point(Vec2) -> Self
+pub fn Rect2D::from_points(Array[Vec2]) -> Self
+pub fn Rect2D::height(Self) -> Double
+pub fn Rect2D::intersection(Self, Self) -> Self
+pub fn Rect2D::intersects(Self, Self) -> Bool
+pub fn Rect2D::is_empty(Self) -> Bool
+pub fn Rect2D::new(Double, Double, Double, Double) -> Self
+pub fn Rect2D::union(Self, Self) -> Self
+pub fn Rect2D::width(Self) -> Double
+pub impl Show for Rect2D
+
+pub(all) struct Triangle2D {
+  p0 : Vec2
+  p1 : Vec2
+  p2 : Vec2
+} derive(Eq, @debug.Debug)
+
+pub struct Vec2 {
+  x : Double
+  y : Double
+} derive(Eq, @debug.Debug)
+pub fn Vec2::add(Self, Self) -> Self
+pub fn Vec2::angle(Self) -> Double
+pub fn Vec2::angle_between(Self, Self) -> Double
+pub fn Vec2::cross(Self, Self) -> Double
+pub fn Vec2::distance(Self, Self) -> Double
+pub fn Vec2::distance_sq(Self, Self) -> Double
+pub fn Vec2::dot(Self, Self) -> Double
+pub fn Vec2::length(Self) -> Double
+pub fn Vec2::length_sq(Self) -> Double
+pub fn Vec2::lerp(Self, Self, Double) -> Self
+pub fn Vec2::max(Self, Self) -> Self
+pub fn Vec2::min(Self, Self) -> Self
+pub fn Vec2::negate(Self) -> Self
+pub fn Vec2::new(Double, Double) -> Self
+pub fn Vec2::normalize(Self) -> Self
+pub fn Vec2::perpendicular(Self) -> Self
+pub fn Vec2::reflect(Self, Self) -> Self
+pub fn Vec2::rotate(Self, Double) -> Self
+pub fn Vec2::scale(Self, Double) -> Self
+pub fn Vec2::sub(Self, Self) -> Self
+pub fn Vec2::unit_x() -> Self
+pub fn Vec2::unit_y() -> Self
+pub fn Vec2::zero() -> Self
+pub impl Show for Vec2
+
+// Type aliases
+
+// Traits
+

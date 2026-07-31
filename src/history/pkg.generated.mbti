@@ -1,0 +1,54 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wccerty/moonbit-artboard/src/history"
+
+import {
+  "moonbitlang/core/debug",
+  "wccerty/moonbit-artboard/src/math",
+  "wccerty/moonbit-artboard/src/scenegraph",
+  "wccerty/moonbit-artboard/src/shapes",
+}
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) enum EditCommand {
+  AddNode(@scenegraph.Node)
+  DeleteNode(@scenegraph.Node)
+  TransformNode(TransformDelta)
+  StyleNode(StyleDelta)
+  BatchCommand(String, Array[EditCommand])
+} derive(Eq, @debug.Debug)
+pub fn EditCommand::execute(Self, @scenegraph.ArtboardDocument) -> Unit
+pub fn EditCommand::undo(Self, @scenegraph.ArtboardDocument) -> Unit
+
+pub(all) struct StyleDelta {
+  id : @scenegraph.NodeID
+  old_style : @shapes.Style
+  new_style : @shapes.Style
+} derive(Eq, @debug.Debug)
+
+pub(all) struct TransformDelta {
+  id : @scenegraph.NodeID
+  old_transform : @math.Matrix2D
+  new_transform : @math.Matrix2D
+} derive(Eq, @debug.Debug)
+
+pub(all) struct UndoManager {
+  undo_stack : Array[EditCommand]
+  redo_stack : Array[EditCommand]
+  max_depth : Int
+} derive(@debug.Debug)
+pub fn UndoManager::can_redo(Self) -> Bool
+pub fn UndoManager::can_undo(Self) -> Bool
+pub fn UndoManager::clear(Self) -> Unit
+pub fn UndoManager::new(max_depth? : Int) -> Self
+pub fn UndoManager::push(Self, EditCommand, @scenegraph.ArtboardDocument) -> Unit
+pub fn UndoManager::redo(Self, @scenegraph.ArtboardDocument) -> Bool
+pub fn UndoManager::undo(Self, @scenegraph.ArtboardDocument) -> Bool
+
+// Type aliases
+
+// Traits
+

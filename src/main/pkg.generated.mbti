@@ -1,0 +1,20 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wccerty/moonbit-artboard/src/main"
+
+import {
+  "wccerty/moonbit-artboard/src/scenegraph",
+}
+
+// Values
+pub fn create_marketing_banner_artboard() -> @scenegraph.ArtboardDocument
+
+pub fn create_mobile_app_ui_artboard() -> @scenegraph.ArtboardDocument
+
+// Errors
+
+// Types and methods
+
+// Type aliases
+
+// Traits
+

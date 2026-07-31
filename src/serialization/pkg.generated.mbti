@@ -1,0 +1,48 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wccerty/moonbit-artboard/src/serialization"
+
+import {
+  "moonbitlang/core/debug",
+  "wccerty/moonbit-artboard/src/scenegraph",
+}
+
+// Values
+pub fn decode_document(String) -> @scenegraph.ArtboardDocument
+
+pub fn encode_document(@scenegraph.ArtboardDocument) -> String
+
+pub fn parse_svg_to_document(String, String) -> @scenegraph.ArtboardDocument
+
+// Errors
+
+// Types and methods
+type JsonTokenizer derive(@debug.Debug)
+
+pub(all) enum JsonValue {
+  JNull
+  JBool(Bool)
+  JNumber(Double)
+  JString(String)
+  JArray(Array[JsonValue])
+  JObject(Map[String, JsonValue])
+} derive(Eq, @debug.Debug)
+pub fn JsonValue::as_bool(Self) -> Bool?
+pub fn JsonValue::as_number(Self) -> Double?
+pub fn JsonValue::as_string(Self) -> String?
+pub fn JsonValue::get_field(Self, String) -> Self?
+pub impl Show for JsonValue
+
+pub(all) enum XmlToken {
+  TagStart(String)
+  TagEnd(String)
+  Attribute(String, String)
+  TextContent(String)
+  SelfClosingTagEnd
+} derive(Eq, @debug.Debug)
+
+type XmlTokenizer derive(@debug.Debug)
+
+// Type aliases
+
+// Traits
+

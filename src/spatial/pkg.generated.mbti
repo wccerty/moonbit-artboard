@@ -1,0 +1,33 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wccerty/moonbit-artboard/src/spatial"
+
+import {
+  "moonbitlang/core/debug",
+  "wccerty/moonbit-artboard/src/math",
+  "wccerty/moonbit-artboard/src/scenegraph",
+}
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) struct GridSpatialIndex {
+  cell_size : Double
+  items : Array[SpatialItem]
+} derive(@debug.Debug)
+pub fn GridSpatialIndex::build_from_doc(@scenegraph.ArtboardDocument, Double) -> Self
+pub fn GridSpatialIndex::clear(Self) -> Unit
+pub fn GridSpatialIndex::insert(Self, @scenegraph.NodeID, @math.Rect2D) -> Unit
+pub fn GridSpatialIndex::new(Double) -> Self
+pub fn GridSpatialIndex::query_rect(Self, @math.Rect2D) -> Array[@scenegraph.NodeID]
+
+pub(all) struct SpatialItem {
+  id : @scenegraph.NodeID
+  bounds : @math.Rect2D
+} derive(Eq, @debug.Debug)
+
+// Type aliases
+
+// Traits
+

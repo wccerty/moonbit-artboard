@@ -1,0 +1,266 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wccerty/moonbit-artboard/src/shapes"
+
+import {
+  "moonbitlang/core/debug",
+  "wccerty/moonbit-artboard/src/math",
+}
+
+// Values
+pub fn combine_paths(BooleanOperationKind, Path, Path) -> Path
+
+pub fn compute_text_layout(String, Double, Double, Double) -> TextLayoutResult
+
+pub fn format_svg_path(Path) -> String
+
+pub fn parse_svg_path(String) -> Path
+
+pub fn render_gradient_mesh_svg(GradientMesh) -> String
+
+pub fn render_mesh_patch_to_svg_path(MeshPatch) -> String
+
+// Errors
+
+// Types and methods
+pub(all) enum BlendMode {
+  Normal
+  Multiply
+  Screen
+  Overlay
+  Darken
+  Lighten
+  ColorDodge
+  ColorBurn
+  SoftLight
+  HardLight
+  Difference
+  Exclusion
+} derive(Eq, @debug.Debug)
+pub fn BlendMode::from_int(Int) -> Self
+pub impl Show for BlendMode
+
+pub(all) enum BooleanOperationKind {
+  Union
+  Difference
+  Intersection
+  Xor
+} derive(Eq, @debug.Debug)
+pub impl Show for BooleanOperationKind
+
+pub(all) struct BooleanPathNode {
+  operation : BooleanOperationKind
+  path_a : Path
+  path_b : Path
+} derive(Eq, @debug.Debug)
+
+pub(all) struct EllipseData {
+  radius_x : Double
+  radius_y : Double
+} derive(Eq, @debug.Debug)
+pub fn EllipseData::new(Double, Double) -> Self
+
+pub(all) enum Fill {
+  None
+  Solid(RGBA)
+  LinearGradient(@math.Vec2, @math.Vec2, Array[GradientStop])
+  RadialGradient(@math.Vec2, Double, @math.Vec2, Array[GradientStop])
+} derive(Eq, @debug.Debug)
+pub fn Fill::linear(@math.Vec2, @math.Vec2, Array[GradientStop]) -> Self
+pub fn Fill::none() -> Self
+pub fn Fill::radial(@math.Vec2, Double, @math.Vec2, Array[GradientStop]) -> Self
+pub fn Fill::solid(RGBA) -> Self
+pub impl Show for Fill
+
+pub(all) struct GradientMesh {
+  columns : Int
+  rows : Int
+  patches : Array[MeshPatch]
+} derive(Eq, @debug.Debug)
+pub fn GradientMesh::create_grid(Int, Int, Double, Double) -> Self
+
+pub(all) struct GradientStop {
+  offset : Double
+  color : RGBA
+} derive(Eq, @debug.Debug)
+pub fn GradientStop::new(Double, RGBA) -> Self
+pub impl Show for GradientStop
+
+pub(all) struct LineData {
+  start : @math.Vec2
+  end : @math.Vec2
+} derive(Eq, @debug.Debug)
+pub fn LineData::new(@math.Vec2, @math.Vec2) -> Self
+
+pub(all) struct MeshPatch {
+  v00 : MeshVertex
+  v10 : MeshVertex
+  v01 : MeshVertex
+  v11 : MeshVertex
+} derive(Eq, @debug.Debug)
+pub fn MeshPatch::sample(Self, Double, Double) -> RGBA
+
+pub(all) struct MeshVertex {
+  position : @math.Vec2
+  color : RGBA
+} derive(Eq, @debug.Debug)
+
+pub struct Path {
+  segments : Array[PathSegment]
+} derive(Eq, @debug.Debug)
+pub fn Path::bounds(Self) -> @math.Rect2D
+pub fn Path::empty() -> Self
+pub fn Path::new(Array[PathSegment]) -> Self
+pub impl Show for Path
+
+pub struct PathBuilder {
+  segments : Array[PathSegment]
+} derive(Eq, @debug.Debug)
+pub fn PathBuilder::arc_to(Self, Double, Double, Double, Bool, Bool, @math.Vec2) -> Self
+pub fn PathBuilder::build(Self) -> Path
+pub fn PathBuilder::close_path(Self) -> Self
+pub fn PathBuilder::cubic_to(Self, @math.Vec2, @math.Vec2, @math.Vec2) -> Self
+pub fn PathBuilder::line_to(Self, @math.Vec2) -> Self
+pub fn PathBuilder::move_to(Self, @math.Vec2) -> Self
+pub fn PathBuilder::new() -> Self
+pub fn PathBuilder::quad_to(Self, @math.Vec2, @math.Vec2) -> Self
+
+pub enum PathSegment {
+  MoveTo(@math.Vec2)
+  LineTo(@math.Vec2)
+  QuadTo(@math.Vec2, @math.Vec2)
+  CubicTo(@math.Vec2, @math.Vec2, @math.Vec2)
+  ArcTo(Double, Double, Double, Bool, Bool, @math.Vec2)
+  Close
+} derive(Eq, @debug.Debug)
+pub impl Show for PathSegment
+
+type PathTokenizer derive(@debug.Debug)
+
+pub(all) struct PolygonData {
+  sides : Int
+  radius : Double
+} derive(Eq, @debug.Debug)
+pub fn PolygonData::new(Int, Double) -> Self
+
+pub(all) struct PolylineData {
+  points : Array[@math.Vec2]
+  closed : Bool
+} derive(Eq, @debug.Debug)
+pub fn PolylineData::new(Array[@math.Vec2], Bool) -> Self
+
+pub struct RGBA {
+  r : Double
+  g : Double
+  b : Double
+  a : Double
+} derive(Eq, @debug.Debug)
+pub fn RGBA::black() -> Self
+pub fn RGBA::blend(Self, Self) -> Self
+pub fn RGBA::blue() -> Self
+pub fn RGBA::from_bytes(Int, Int, Int, Double) -> Self
+pub fn RGBA::from_hex(String) -> Self
+pub fn RGBA::green() -> Self
+pub fn RGBA::lerp(Self, Self, Double) -> Self
+pub fn RGBA::new(Double, Double, Double, Double) -> Self
+pub fn RGBA::red() -> Self
+pub fn RGBA::to_hex(Self) -> String
+pub fn RGBA::transparent() -> Self
+pub fn RGBA::white() -> Self
+pub impl Show for RGBA
+
+pub(all) struct RectData {
+  width : Double
+  height : Double
+  rx : Double
+  ry : Double
+} derive(Eq, @debug.Debug)
+pub fn RectData::new(Double, Double, Double, Double) -> Self
+
+pub(all) struct Shadow {
+  offset_x : Double
+  offset_y : Double
+  blur : Double
+  color : RGBA
+} derive(Eq, @debug.Debug)
+pub fn Shadow::new(Double, Double, Double, RGBA) -> Self
+pub impl Show for Shadow
+
+pub(all) enum ShapeGeometry {
+  Rectangle(RectData)
+  Ellipse(EllipseData)
+  Polygon(PolygonData)
+  Star(StarData)
+  Line(LineData)
+  Polyline(PolylineData)
+  Path(Path)
+} derive(Eq, @debug.Debug)
+pub fn ShapeGeometry::ellipse(Double, Double) -> Self
+pub fn ShapeGeometry::line(@math.Vec2, @math.Vec2) -> Self
+pub fn ShapeGeometry::path(Path) -> Self
+pub fn ShapeGeometry::polygon(Int, Double) -> Self
+pub fn ShapeGeometry::polyline(Array[@math.Vec2], Bool) -> Self
+pub fn ShapeGeometry::rectangle(Double, Double, Double, Double) -> Self
+pub fn ShapeGeometry::star(Int, Double, Double) -> Self
+pub fn ShapeGeometry::to_path(Self) -> Path
+
+pub(all) struct StarData {
+  points : Int
+  inner_radius : Double
+  outer_radius : Double
+} derive(Eq, @debug.Debug)
+pub fn StarData::new(Int, Double, Double) -> Self
+
+pub(all) struct Stroke {
+  color : RGBA
+  width : Double
+  cap : StrokeCap
+  join : StrokeJoin
+  miter_limit : Double
+  dash_array : Array[Double]
+  dash_offset : Double
+} derive(Eq, @debug.Debug)
+pub fn Stroke::default() -> Self
+pub fn Stroke::new(RGBA, Double, StrokeCap, StrokeJoin) -> Self
+pub impl Show for Stroke
+
+pub(all) enum StrokeCap {
+  Butt
+  Round
+  Square
+} derive(Eq, @debug.Debug)
+pub impl Show for StrokeCap
+
+pub(all) enum StrokeJoin {
+  Miter
+  Round
+  Bevel
+} derive(Eq, @debug.Debug)
+pub impl Show for StrokeJoin
+
+pub(all) struct Style {
+  fill : Fill
+  stroke : Stroke?
+  opacity : Double
+  blend_mode : BlendMode
+  shadow : Shadow?
+} derive(Eq, @debug.Debug)
+pub fn Style::default() -> Self
+pub impl Show for Style
+
+pub(all) struct TextLayoutResult {
+  lines : Array[TextLine]
+  total_width : Double
+  total_height : Double
+} derive(Eq, @debug.Debug)
+
+pub(all) struct TextLine {
+  text : String
+  width : Double
+  height : Double
+  baseline : Double
+} derive(Eq, @debug.Debug)
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,79 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wccerty/moonbit-artboard/src/tools"
+
+import {
+  "moonbitlang/core/debug",
+  "wccerty/moonbit-artboard/src/math",
+  "wccerty/moonbit-artboard/src/shapes",
+}
+
+// Values
+pub fn find_alignment_snaps(@math.Rect2D, Array[@math.Rect2D], Double) -> SnapResult
+
+// Errors
+
+// Types and methods
+pub(all) struct AlignmentGuide {
+  orientation : GuideOrientation
+  position : Double
+  start_coord : Double
+  end_coord : Double
+} derive(Eq, @debug.Debug)
+
+pub(all) enum GuideOrientation {
+  Horizontal
+  Vertical
+} derive(Eq, @debug.Debug)
+
+pub(all) struct PathControlPoint {
+  position : @math.Vec2
+  handle_in : @math.Vec2
+  handle_out : @math.Vec2
+  mode : PenHandleMode
+} derive(Eq, @debug.Debug)
+
+pub(all) enum PenHandleMode {
+  Corner
+  Symmetric
+  Smooth
+} derive(Eq, @debug.Debug)
+
+pub(all) struct PenToolState {
+  points : Array[PathControlPoint]
+  is_closed : Bool
+  mut active_index : Int
+  mut is_dragging_handle : Bool
+} derive(@debug.Debug)
+pub fn PenToolState::add_point(Self, @math.Vec2) -> Unit
+pub fn PenToolState::drag_handle(Self, @math.Vec2) -> Unit
+pub fn PenToolState::new() -> Self
+pub fn PenToolState::to_path(Self) -> @shapes.Path
+
+pub(all) struct SnapResult {
+  snapped_offset : @math.Vec2
+  active_guides : Array[AlignmentGuide]
+} derive(@debug.Debug)
+
+pub(all) enum ToolKind {
+  SelectTool
+  RectangleTool
+  EllipseTool
+  StarTool
+  PenTool
+  PanTool
+  ZoomTool
+} derive(Eq, @debug.Debug)
+pub impl Show for ToolKind
+
+pub(all) struct ToolState {
+  kind : ToolKind
+  is_dragging : Bool
+  drag_start : @math.Vec2
+  current_pos : @math.Vec2
+} derive(@debug.Debug)
+pub fn ToolState::new(ToolKind) -> Self
+
+// Type aliases
+
+// Traits
+

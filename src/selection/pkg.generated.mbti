@@ -1,0 +1,48 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wccerty/moonbit-artboard/src/selection"
+
+import {
+  "moonbitlang/core/debug",
+  "wccerty/moonbit-artboard/src/math",
+  "wccerty/moonbit-artboard/src/scenegraph",
+}
+
+// Values
+pub fn get_transform_handles(@math.Rect2D) -> Array[TransformHandle]
+
+// Errors
+
+// Types and methods
+pub(all) enum HandleKind {
+  NorthWest
+  North
+  NorthEast
+  East
+  SouthEast
+  South
+  SouthWest
+  West
+  Rotation
+} derive(Eq, @debug.Debug)
+
+pub(all) struct SelectionManager {
+  selected_ids : Array[@scenegraph.NodeID]
+} derive(@debug.Debug)
+pub fn SelectionManager::clear(Self) -> Unit
+pub fn SelectionManager::count(Self) -> Int
+pub fn SelectionManager::deselect(Self, @scenegraph.NodeID) -> Unit
+pub fn SelectionManager::get_bounding_box(Self, @scenegraph.ArtboardDocument) -> @math.Rect2D
+pub fn SelectionManager::is_selected(Self, @scenegraph.NodeID) -> Bool
+pub fn SelectionManager::new() -> Self
+pub fn SelectionManager::select(Self, @scenegraph.NodeID) -> Unit
+pub fn SelectionManager::toggle(Self, @scenegraph.NodeID) -> Unit
+
+pub(all) struct TransformHandle {
+  kind : HandleKind
+  position : @math.Vec2
+} derive(Eq, @debug.Debug)
+
+// Type aliases
+
+// Traits
+

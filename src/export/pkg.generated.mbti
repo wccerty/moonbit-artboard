@@ -1,0 +1,43 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wccerty/moonbit-artboard/src/export"
+
+import {
+  "moonbitlang/core/debug",
+  "wccerty/moonbit-artboard/src/math",
+  "wccerty/moonbit-artboard/src/scenegraph",
+  "wccerty/moonbit-artboard/src/shapes",
+}
+
+// Values
+pub fn export_to_html5_canvas_code(@scenegraph.ArtboardDocument) -> String
+
+pub fn export_to_pdf(@scenegraph.ArtboardDocument) -> String
+
+pub fn export_to_svg(@scenegraph.ArtboardDocument) -> String
+
+pub fn generate_canvas_instructions(@scenegraph.ArtboardDocument) -> Array[CanvasCommand]
+
+// Errors
+
+// Types and methods
+pub(all) enum CanvasCommand {
+  Save
+  Restore
+  SetTransform(@math.Matrix2D)
+  SetFillStyle(@shapes.RGBA)
+  SetStrokeStyle(@shapes.RGBA, Double)
+  BeginPath
+  MoveTo(@math.Vec2)
+  LineTo(@math.Vec2)
+  CubicTo(@math.Vec2, @math.Vec2, @math.Vec2)
+  ClosePath
+  Fill
+  Stroke
+  DrawText(String, @math.Vec2, Double, String)
+  DrawImage(String, @math.Rect2D)
+} derive(Eq, @debug.Debug)
+
+// Type aliases
+
+// Traits
+

@@ -1,0 +1,173 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wccerty/moonbit-artboard/src/scenegraph"
+
+import {
+  "moonbitlang/core/debug",
+  "wccerty/moonbit-artboard/src/math",
+  "wccerty/moonbit-artboard/src/shapes",
+}
+
+// Values
+pub fn apply_auto_layout(ArtboardDocument, NodeID, AutoLayoutConfig) -> Unit
+
+pub fn apply_layout_constraints(@math.Rect2D, @math.Vec2, @math.Vec2, LayoutConstraint) -> @math.Rect2D
+
+pub fn instantiate_component(ArtboardDocument, ComponentMaster, NodeID) -> NodeID?
+
+// Errors
+
+// Types and methods
+pub(all) struct ArtboardData {
+  width : Double
+  height : Double
+  background : @shapes.RGBA
+} derive(Eq, @debug.Debug)
+
+pub(all) struct ArtboardDocument {
+  title : String
+  nodes : Map[String, Node]
+  root_ids : Array[NodeID]
+  mut width : Double
+  mut height : Double
+} derive(@debug.Debug)
+pub fn ArtboardDocument::add_node(Self, Node, NodeID?) -> Unit
+pub fn ArtboardDocument::get_node(Self, NodeID) -> Node?
+pub fn ArtboardDocument::get_world_bounds(Self, NodeID) -> @math.Rect2D
+pub fn ArtboardDocument::get_world_matrix(Self, NodeID) -> @math.Matrix2D
+pub fn ArtboardDocument::group_nodes(Self, Array[NodeID]) -> NodeID?
+pub fn ArtboardDocument::new(String, Double, Double) -> Self
+pub fn ArtboardDocument::remove_node(Self, NodeID) -> Bool
+pub fn ArtboardDocument::ungroup_node(Self, NodeID) -> Array[NodeID]
+pub fn ArtboardDocument::update_node(Self, Node) -> Unit
+
+pub(all) struct AutoLayoutConfig {
+  direction : LayoutDirection
+  alignment : LayoutAlignment
+  gap : Double
+  padding : Padding
+} derive(Eq, @debug.Debug)
+
+pub(all) struct ComponentInstance {
+  id : NodeID
+  master_id : NodeID
+  name_override : String?
+  opacity_override : Double?
+} derive(Eq, @debug.Debug)
+
+pub(all) struct ComponentMaster {
+  id : NodeID
+  name : String
+  root_node_id : NodeID
+} derive(Eq, @debug.Debug)
+
+pub(all) enum HorizontalConstraint {
+  Left
+  Right
+  Center
+  Scale
+  LeftRight
+} derive(Eq, @debug.Debug)
+
+pub(all) struct ImageData {
+  src : String
+  width : Double
+  height : Double
+} derive(Eq, @debug.Debug)
+
+pub(all) struct Layer {
+  id : NodeID
+  name : String
+  visible : Bool
+  locked : Bool
+  children : Array[NodeID]
+} derive(Eq, @debug.Debug)
+pub fn Layer::add_node(Self, NodeID) -> Unit
+pub fn Layer::move_down(Self, NodeID) -> Bool
+pub fn Layer::move_up(Self, NodeID) -> Bool
+pub fn Layer::new(NodeID, String) -> Self
+pub fn Layer::remove_node(Self, NodeID) -> Bool
+
+pub(all) enum LayoutAlignment {
+  Start
+  Center
+  End
+  SpaceBetween
+} derive(Eq, @debug.Debug)
+
+pub(all) struct LayoutConstraint {
+  horizontal : HorizontalConstraint
+  vertical : VerticalConstraint
+} derive(Eq, @debug.Debug)
+
+pub(all) enum LayoutDirection {
+  Horizontal
+  Vertical
+} derive(Eq, @debug.Debug)
+
+pub(all) struct Node {
+  id : NodeID
+  name : String
+  node_type : NodeType
+  transform : @math.Matrix2D
+  parent_id : NodeID?
+  visible : Bool
+  locked : Bool
+  opacity : Double
+  z_index : Int
+} derive(Eq, @debug.Debug)
+pub fn Node::create_artboard(NodeID, String, Double, Double, @shapes.RGBA) -> Self
+pub fn Node::create_group(NodeID, String, Array[NodeID]) -> Self
+pub fn Node::create_image(NodeID, String, String, Double, Double) -> Self
+pub fn Node::create_shape(NodeID, String, @shapes.ShapeGeometry, @shapes.Style) -> Self
+pub fn Node::create_text(NodeID, String, String, Double, String, @shapes.Style) -> Self
+pub fn Node::local_bounds(Self) -> @math.Rect2D
+
+pub(all) struct NodeID {
+  value : String
+} derive(Eq, Hash, @debug.Debug)
+pub fn NodeID::generate(String) -> Self
+pub fn NodeID::new(String) -> Self
+pub impl Show for NodeID
+
+pub(all) enum NodeType {
+  ArtboardNode(ArtboardData)
+  GroupNode(Array[NodeID])
+  ShapeNode(ShapeNodeData)
+  TextNode(TextData)
+  ImageNode(ImageData)
+} derive(Eq, @debug.Debug)
+
+pub(all) struct Padding {
+  top : Double
+  right : Double
+  bottom : Double
+  left : Double
+} derive(Eq, @debug.Debug)
+pub fn Padding::all(Double) -> Self
+pub fn Padding::symmetric(Double, Double) -> Self
+
+pub(all) struct ShapeNodeData {
+  geometry : @shapes.ShapeGeometry
+  style : @shapes.Style
+} derive(Eq, @debug.Debug)
+
+pub(all) struct TextData {
+  text : String
+  font_size : Double
+  font_family : String
+  align : String
+  style : @shapes.Style
+} derive(Eq, @debug.Debug)
+
+pub(all) enum VerticalConstraint {
+  Top
+  Bottom
+  Center
+  Scale
+  TopBottom
+} derive(Eq, @debug.Debug)
+
+// Type aliases
+
+// Traits
+
