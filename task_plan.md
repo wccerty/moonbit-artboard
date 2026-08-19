@@ -15,8 +15,8 @@
 ## 阶段
 
 - [completed] 1. 项目上下文、远程元数据、基线与竞赛自查规则
-- [in_progress] 2. 设计确认与实现计划
-- [pending] 3. 核心生产能力扩展与回归测试
+- [completed] 2. 设计确认与实现计划
+- [in_progress] 3. 核心生产能力扩展与回归测试
 - [pending] 4. 基准工具、真实数据与规模统计
 - [pending] 5. README、CI、许可证与仓库清洁度
 - [pending] 6. 全量验证、最终自查报告与本地交付
@@ -24,4 +24,4 @@
 ## 当前阻塞/待确认
 
 - `firecrawl` CLI 未安装，`npx firecrawl` 因 npm 缓存权限失败；已用内置网页读取能力完成公开资料核对。
-- 设计已获用户确认；下一步是完成实现计划并进入测试先行开发。
+- 设计已获用户确认；实现计划已写入 `docs/superpowers/plans/2026-08-19-moonbit-artboard-acceptance.md` 并完成自审。
