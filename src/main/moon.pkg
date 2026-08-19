@@ -11,3 +11,8 @@ import {
 }
 
 pkgtype(kind: "executable")
+
+import {
+  "wccerty/moonbit-artboard/src/viewport",
+  "wccerty/moonbit-artboard/src/render",
+} for "test"

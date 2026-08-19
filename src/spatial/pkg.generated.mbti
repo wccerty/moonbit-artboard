@@ -9,7 +9,17 @@ import {
 }
 
 // Values
+pub fn document_hit_test(@scenegraph.ArtboardDocument, @math.Vec2) -> @scenegraph.NodeID?
+
+pub fn hit_test_document(@scenegraph.ArtboardDocument, @math.Vec2) -> @scenegraph.NodeID?
+
 pub fn hit_test_geometry(@shapes.ShapeGeometry, @math.Vec2, Double) -> Bool
+
+pub fn hit_test_node(@scenegraph.ArtboardDocument, @scenegraph.NodeID, @math.Vec2) -> Bool
+
+pub fn point_in_polygon(@math.Vec2, Array[@math.Vec2]) -> Bool
+
+pub fn point_in_rect(@math.Vec2, @math.Rect2D) -> Bool
 
 // Errors
 

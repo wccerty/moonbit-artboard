@@ -8,3 +8,11 @@ pub fn hit_test_geometry(
 ) -> Bool {
   @vshapes.geometry_contains_point(geometry, point, tolerance)
 }
+
+///|
+pub fn document_hit_test(
+  doc : @scenegraph.ArtboardDocument,
+  point : @math.Vec2,
+) -> @scenegraph.NodeID? {
+  hit_test_document(doc, point)
+}
