@@ -49,6 +49,7 @@ pub fn Viewport::new(Double, Double, Double, Double) -> Self
 pub fn Viewport::pan_by(Self, @math.Vec2) -> Unit
 pub fn Viewport::screen_to_world(Self, @math.Vec2) -> @math.Vec2
 pub fn Viewport::visible_nodes(Self, @spatial.GridSpatialIndex) -> Array[@scenegraph.NodeID]
+pub fn Viewport::visible_world_rect(Self) -> @math.Rect2D
 pub fn Viewport::world_rect(Self) -> @math.Rect2D
 pub fn Viewport::world_to_screen(Self, @math.Vec2) -> @math.Vec2
 pub fn Viewport::zoom_at(Self, Double, @math.Vec2) -> Unit

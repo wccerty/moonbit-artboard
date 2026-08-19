@@ -4,11 +4,14 @@ package "wccerty/moonbit-artboard/src/export"
 import {
   "moonbitlang/core/debug",
   "wccerty/moonbit-artboard/src/math",
+  "wccerty/moonbit-artboard/src/render",
   "wccerty/moonbit-artboard/src/scenegraph",
   "wccerty/moonbit-artboard/src/shapes",
 }
 
 // Values
+pub fn canvas_commands_from_plan(@render.RenderPlan) -> Array[CanvasCommand]
+
 pub fn export_to_html5_canvas_code(@scenegraph.ArtboardDocument) -> String
 
 pub fn export_to_pdf(@scenegraph.ArtboardDocument) -> String
@@ -24,12 +27,15 @@ pub(all) enum CanvasCommand {
   Save
   Restore
   SetTransform(@math.Matrix2D)
+  SetGlobalAlpha(Double)
   SetFillStyle(@shapes.RGBA)
   SetStrokeStyle(@shapes.RGBA, Double)
   BeginPath
   MoveTo(@math.Vec2)
   LineTo(@math.Vec2)
+  QuadTo(@math.Vec2, @math.Vec2)
   CubicTo(@math.Vec2, @math.Vec2, @math.Vec2)
+  ArcTo(Double, Double, Double, Bool, Bool, @math.Vec2)
   ClosePath
   Fill
   Stroke

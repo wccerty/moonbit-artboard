@@ -1,0 +1,43 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wccerty/moonbit-artboard/src/render"
+
+import {
+  "moonbitlang/core/debug",
+  "wccerty/moonbit-artboard/src/math",
+  "wccerty/moonbit-artboard/src/scenegraph",
+  "wccerty/moonbit-artboard/src/shapes",
+  "wccerty/moonbit-artboard/src/viewport",
+}
+
+// Values
+pub fn compile_render_plan(@scenegraph.ArtboardDocument, @viewport.Viewport?) -> RenderPlan
+
+// Errors
+
+// Types and methods
+pub(all) enum RenderOp {
+  Save
+  Restore
+  SetTransform(@math.Matrix2D)
+  SetOpacity(Double)
+  DrawPath(@shapes.Path, @shapes.Style)
+  DrawText(String, @math.Vec2, Double, String, @shapes.Style)
+  DrawImage(String, @math.Rect2D, Double)
+} derive(Eq, @debug.Debug)
+
+pub(all) struct RenderPlan {
+  ops : Array[RenderOp]
+  stats : RenderStats
+} derive(Eq, @debug.Debug)
+
+pub(all) struct RenderStats {
+  mut visited_nodes : Int
+  mut visible_nodes : Int
+  mut culled_nodes : Int
+  mut draw_ops : Int
+  mut path_segments : Int
+} derive(Eq, @debug.Debug)
+
+// Type aliases
+
+// Traits

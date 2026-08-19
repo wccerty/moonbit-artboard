@@ -5,12 +5,15 @@ pub(all) enum CanvasCommand {
   Save
   Restore
   SetTransform(@math.Matrix2D)
+  SetGlobalAlpha(Double)
   SetFillStyle(@shapes.RGBA)
   SetStrokeStyle(@shapes.RGBA, Double)
   BeginPath
   MoveTo(@math.Vec2)
   LineTo(@math.Vec2)
+  QuadTo(@math.Vec2, @math.Vec2)
   CubicTo(@math.Vec2, @math.Vec2, @math.Vec2)
+  ArcTo(Double, Double, Double, Bool, Bool, @math.Vec2)
   ClosePath
   Fill
   Stroke
@@ -92,4 +95,63 @@ pub fn generate_canvas_instructions(
   }
 
   cmds
+}
+
+///|
+fn append_render_path(
+  path : @shapes.Path,
+  style : @shapes.Style,
+  commands : Array[CanvasCommand],
+) -> Unit {
+  commands.push(BeginPath)
+  for i = 0; i < path.segments.length(); i = i + 1 {
+    match path.segments[i] {
+      MoveTo(point) => commands.push(MoveTo(point))
+      LineTo(point) => commands.push(LineTo(point))
+      QuadTo(control, end) => commands.push(QuadTo(control, end))
+      CubicTo(control1, control2, end) =>
+        commands.push(CubicTo(control1, control2, end))
+      ArcTo(rx, ry, rotation, large, sweep, end) =>
+        commands.push(ArcTo(rx, ry, rotation, large, sweep, end))
+      Close => commands.push(ClosePath)
+    }
+  }
+  match style.fill {
+    Solid(color) => {
+      commands.push(SetFillStyle(color))
+      commands.push(Fill)
+    }
+    _ => ()
+  }
+  match style.stroke {
+    Some(stroke) => {
+      commands.push(SetStrokeStyle(stroke.color, stroke.width))
+      commands.push(Stroke)
+    }
+    None => ()
+  }
+}
+
+///|
+pub fn canvas_commands_from_plan(
+  plan : @render.RenderPlan,
+) -> Array[CanvasCommand] {
+  let commands : Array[CanvasCommand] = []
+  for i = 0; i < plan.ops.length(); i = i + 1 {
+    match plan.ops[i] {
+      @render.RenderOp::Save => commands.push(Save)
+      @render.RenderOp::Restore => commands.push(Restore)
+      @render.RenderOp::SetTransform(matrix) =>
+        commands.push(SetTransform(matrix))
+      @render.RenderOp::SetOpacity(opacity) =>
+        commands.push(SetGlobalAlpha(opacity))
+      @render.RenderOp::DrawPath(path, style) =>
+        append_render_path(path, style, commands)
+      @render.RenderOp::DrawText(text, position, size, family, _) =>
+        commands.push(DrawText(text, position, size, family))
+      @render.RenderOp::DrawImage(src, bounds, _) =>
+        commands.push(DrawImage(src, bounds))
+    }
+  }
+  commands
 }

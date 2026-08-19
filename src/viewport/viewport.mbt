@@ -93,6 +93,16 @@ pub fn Viewport::screen_to_world(
 }
 
 ///|
+pub fn Viewport::visible_world_rect(self : Viewport) -> @math.Rect2D {
+  @math.Rect2D::from_points([
+    self.screen_to_world(@math.Vec2::new(0.0, 0.0)),
+    self.screen_to_world(@math.Vec2::new(self.screen_width, 0.0)),
+    self.screen_to_world(@math.Vec2::new(self.screen_width, self.screen_height)),
+    self.screen_to_world(@math.Vec2::new(0.0, self.screen_height)),
+  ])
+}
+
+///|
 pub fn Viewport::pan_by(self : Viewport, delta_screen : @math.Vec2) -> Unit {
   self.center = @math.Vec2::new(
     self.center.x - delta_screen.x / self.zoom,

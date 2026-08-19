@@ -1,6 +1,23 @@
 // SVG Exporter Adapter converting SceneGraph into standalone SVG document strings.
 
 ///|
+fn escape_xml(value : String) -> String {
+  let mut result = ""
+  for i = 0; i < value.length(); i = i + 1 {
+    let ch = value[i].to_int().unsafe_to_char()
+    match ch {
+      '&' => result = result + "&amp;"
+      '<' => result = result + "&lt;"
+      '>' => result = result + "&gt;"
+      '"' => result = result + "&quot;"
+      '\'' => result = result + "&apos;"
+      _ => result = result + ch.to_string()
+    }
+  }
+  result
+}
+
+///|
 fn matrix_to_svg_transform(m : @math.Matrix2D) -> String {
   "matrix(" +
   m.a.to_string() +
@@ -62,7 +79,12 @@ fn export_node_svg(
 
       match node.node_type {
         GroupNode(children) => {
-          svg = svg + "<g id=\"" + node.id.value + "\"" + transform_attr + ">\n"
+          svg = svg +
+            "<g id=\"" +
+            escape_xml(node.id.value) +
+            "\"" +
+            transform_attr +
+            ">\n"
           for i = 0; i < children.length(); i = i + 1 {
             svg = svg + export_node_svg(doc, children[i])
           }
@@ -99,7 +121,7 @@ fn export_node_svg(
               let path_data = s.geometry.to_path().to_string()
               svg = svg +
                 "<path d=\"" +
-                path_data +
+                escape_xml(path_data) +
                 "\"" +
                 transform_attr +
                 style_attr +
@@ -114,17 +136,17 @@ fn export_node_svg(
             "\" font-size=\"" +
             t.font_size.to_string() +
             "\" font-family=\"" +
-            t.font_family +
+            escape_xml(t.font_family) +
             "\"" +
             transform_attr +
             style_to_svg_attributes(t.style) +
             ">" +
-            t.text +
+            escape_xml(t.text) +
             "</text>\n"
         ImageNode(img) =>
           svg = svg +
             "<image href=\"" +
-            img.src +
+            escape_xml(img.src) +
             "\" width=\"" +
             img.width.to_string() +
             "\" height=\"" +

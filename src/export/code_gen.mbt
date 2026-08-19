@@ -29,6 +29,8 @@ pub fn export_to_html5_canvas_code(
           ", " +
           m.ty.to_string() +
           ");\n"
+      SetGlobalAlpha(alpha) =>
+        code = code + "ctx.globalAlpha = " + alpha.to_string() + ";\n"
       SetFillStyle(c) => code = code + "ctx.fillStyle = '" + c.to_hex() + "';\n"
       SetStrokeStyle(c, w) => {
         code = code + "ctx.strokeStyle = '" + c.to_hex() + "';\n"
@@ -49,6 +51,17 @@ pub fn export_to_html5_canvas_code(
           ", " +
           p.y.to_string() +
           ");\n"
+      QuadTo(control, end) =>
+        code = code +
+          "ctx.quadraticCurveTo(" +
+          control.x.to_string() +
+          ", " +
+          control.y.to_string() +
+          ", " +
+          end.x.to_string() +
+          ", " +
+          end.y.to_string() +
+          ");\n"
       CubicTo(c1, c2, end) =>
         code = code +
           "ctx.bezierCurveTo(" +
@@ -64,6 +77,19 @@ pub fn export_to_html5_canvas_code(
           ", " +
           end.y.to_string() +
           ");\n"
+      ArcTo(rx, ry, rotation, _, _, end) =>
+        code = code +
+          "ctx.ellipse(" +
+          end.x.to_string() +
+          ", " +
+          end.y.to_string() +
+          ", " +
+          rx.to_string() +
+          ", " +
+          ry.to_string() +
+          ", " +
+          rotation.to_string() +
+          ", 0, Math.PI * 2);\n"
       ClosePath => code = code + "ctx.closePath();\n"
       Fill => code = code + "ctx.fill();\n"
       Stroke => code = code + "ctx.stroke();\n"
