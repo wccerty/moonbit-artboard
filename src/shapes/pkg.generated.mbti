@@ -11,9 +11,17 @@ pub fn combine_paths(BooleanOperationKind, Path, Path) -> Path
 
 pub fn compute_text_layout(String, Double, Double, Double) -> TextLayoutResult
 
+pub fn flatten_path(Path, Double, Int) -> Array[Array[@math.Vec2]]
+
 pub fn format_svg_path(Path) -> String
 
+pub fn geometry_contains_point(ShapeGeometry, @math.Vec2, Double) -> Bool
+
 pub fn parse_svg_path(String) -> Path
+
+pub fn path_contains_point(Path, @math.Vec2, Double) -> Bool
+
+pub fn path_distance_to_point(Path, @math.Vec2, Double) -> Double
 
 pub fn render_gradient_mesh_svg(GradientMesh) -> String
 

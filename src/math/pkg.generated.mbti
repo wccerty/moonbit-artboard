@@ -14,6 +14,10 @@ pub fn evaluate_b_spline(Vec2, Vec2, Vec2, Vec2, Double) -> Vec2
 
 pub fn evaluate_catmull_rom(Vec2, Vec2, Vec2, Vec2, Double) -> Vec2
 
+pub fn flatten_cubic(CubicBezier, Double, Int) -> Array[Vec2]
+
+pub fn flatten_quadratic(QuadraticBezier, Double, Int) -> Array[Vec2]
+
 pub fn interpolate_catmull_rom_spline(Array[Vec2], Int) -> Array[Vec2]
 
 pub fn nearly_equal(Double, Double, Double) -> Bool
