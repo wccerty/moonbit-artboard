@@ -8,4 +8,5 @@
 - 完成公开 `osc2026-guide`、官方比赛页面、参考 CI 与 MoonBit 社区 workflow template 的资料核对。
 - 用户已确认详细设计；设计文档已写入 `docs/superpowers/specs/2026-08-19-moonbit-artboard-acceptance-design.md`，并完成范围与占位符自审。
 - 实现计划已写入 `docs/superpowers/plans/2026-08-19-moonbit-artboard-acceptance.md`，覆盖 11 个可验证任务并完成计划自审。
+- 执行前复审发现并修正 RenderPlan 与 Canvas 适配器的循环依赖；render 只产出计划，export 负责转换为 CanvasCommand，并明确视口可变字段与集成测试路径。
 - 尚未写生产代码；下一步开始 Task 1 的 TDD 红灯测试。

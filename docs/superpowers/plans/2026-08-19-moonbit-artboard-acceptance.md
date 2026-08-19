@@ -290,8 +290,8 @@ pub(all) struct Viewport {
   world_height : Double
   screen_width : Double
   screen_height : Double
-  center : @math.Vec2
-  zoom : Double
+  mut center : @math.Vec2
+  mut zoom : Double
   device_pixel_ratio : Double
   min_zoom : Double
   max_zoom : Double
@@ -310,8 +310,8 @@ pub fn Viewport::pan_by(self : Viewport, delta_screen : @math.Vec2) -> Unit
 pub fn Viewport::zoom_at(self : Viewport, factor : Double, screen_point : @math.Vec2) -> Unit
 
 pub(all) struct DirtyRegion {
-  bounds : @math.Rect2D
-  full_redraw : Bool
+  mut bounds : @math.Rect2D
+  mut full_redraw : Bool
 } derive(Eq, Debug)
 
 pub fn DirtyRegion::empty() -> DirtyRegion
@@ -372,15 +372,12 @@ pub fn compile_render_plan(
   doc : @scenegraph.ArtboardDocument,
   viewport : @viewport.Viewport?,
 ) -> RenderPlan
-pub fn canvas_commands_from_plan(
-  plan : RenderPlan,
-) -> Array[@export.CanvasCommand]
 ```
 
 - [ ] **Step 1: Write failing render tests.** Build nested groups and shapes, assert exact operation order, save/restore nesting, accumulated opacity, world transforms, invisible-node omission, viewport culling, and stats counts. Add a text/image case and a path with `QuadTo`/`ArcTo`.
 - [ ] **Step 2: Run focused render tests to verify RED.** Run `moon test src/render --filter 'render plan'`. Expected: new package/symbol failures.
 - [ ] **Step 3: Implement RenderOp and compiler.** Walk `ArtboardDocument::traverse`, maintain one save/restore pair per rendered node, skip invisible nodes, cull outside the optional viewport rectangle, multiply opacity through the traversal entry, convert shapes to paths, and count path segments without mutating the source document.
-- [ ] **Step 4: Adapt Canvas commands.** Map `DrawPath` segments to `BeginPath`, `MoveTo`, `LineTo`, `CubicTo`, `ClosePath`, fill/stroke operations; map `SetOpacity` to a new Canvas command only if the public enum can remain compatible, otherwise emit a backend-independent `CanvasCommand::SetGlobalAlpha` and update its tests. Preserve existing `generate_canvas_instructions` output for documents without nested opacity.
+- [ ] **Step 4: Adapt Canvas commands in the export package.** Add `canvas_commands_from_plan(plan : @render.RenderPlan) -> Array[CanvasCommand]` to `src/export/canvas2d.mbt`; map `DrawPath` segments to `BeginPath`, `MoveTo`, `LineTo`, `CubicTo`, `ClosePath`, fill/stroke operations; map `SetOpacity` to a new Canvas command only if the public enum can remain compatible, otherwise emit a backend-independent `CanvasCommand::SetGlobalAlpha` and update its tests. Keep `render` independent from `export`, and preserve existing `generate_canvas_instructions` output for documents without nested opacity.
 - [ ] **Step 5: Harden SVG escaping and traversal.** Escape `&`, `<`, `>`, quotes, and apostrophes in IDs, text, image URLs, and path attributes; use the shared traversal order; write deterministic output for the same document.
 - [ ] **Step 6: Run focused tests to verify GREEN.** Run `moon test src/render --filter 'render plan'` and `moon test src/export --filter 'Canvas|SVG|boundary'`.
 - [ ] **Step 7: Validate dependent packages.** Run `moon fmt`, `moon check --deny-warn`, `moon test src/render --deny-warn`, `moon test src/export --deny-warn`, and `moon info`.
@@ -397,7 +394,7 @@ pub fn canvas_commands_from_plan(
 - Modify: `src/tools/tools_test.mbt`
 - Modify: `src/serialization/serialization_test.mbt`
 - Modify: `src/export/export_test.mbt`
-- Create: `src/integration_test.mbt` only if a root package exists; otherwise add `src/main/integration_boundary_test.mbt`.
+- Test: `src/main/integration_boundary_test.mbt`
 
 **Interfaces:**
 - Consumes: all completed packages.
@@ -504,7 +501,7 @@ Expected: every command exits 0; the native benchmark is allowed to be the only 
 
 - The design’s six functional areas map to Tasks 1–7; integration behavior maps to Task 8; measured data and honest line counting map to Task 9; documentation and CI map to Task 10; final acceptance evidence maps to Task 11.
 - Every new public API has a named test location and a focused command that is expected to fail before implementation.
-- The render package does not import back into scenegraph, so package dependencies remain acyclic: math → shapes → scenegraph → spatial/viewport → render → export, with serialization and history remaining separate consumers.
+- The render package does not import back into export; `src/export` imports `src/render` for `canvas_commands_from_plan`, so package dependencies remain acyclic: math → shapes → scenegraph → spatial/viewport → render → export, with serialization and history remaining separate consumers.
 - The existing `decode_document` and `GridSpatialIndex` names are retained; new checked/error/statistics APIs extend rather than silently replace the public surface.
 - The production-line threshold is enforced by a script over actual source files, while test lines and generated interfaces are reported separately.
 - There are no `TBD`, `TODO`, or “implement later” steps; all verification commands and expected outcomes are explicit.
