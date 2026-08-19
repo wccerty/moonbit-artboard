@@ -9,13 +9,23 @@ import {
 // Values
 pub fn decode_document(String) -> @scenegraph.ArtboardDocument
 
+pub fn decode_document_checked(String) -> Result[@scenegraph.ArtboardDocument, JsonDecodeError]
+
 pub fn encode_document(@scenegraph.ArtboardDocument) -> String
+
+pub fn parse_json(String) -> Result[JsonValue, JsonDecodeError]
 
 pub fn parse_svg_to_document(String, String) -> @scenegraph.ArtboardDocument
 
 // Errors
 
 // Types and methods
+pub(all) struct JsonDecodeError {
+  position : Int
+  message : String
+} derive(Eq, @debug.Debug)
+pub fn JsonDecodeError::new(Int, String) -> Self
+
 type JsonTokenizer derive(@debug.Debug)
 
 pub(all) enum JsonValue {
