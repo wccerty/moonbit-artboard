@@ -311,12 +311,11 @@ fn decode_node(value : JsonValue) -> Result[@scenegraph.Node, JsonDecodeError] {
         Ok(shape) => shape
         Err(error) => return Err(error)
       }
-      @scenegraph.Node::create_shape(
-        id,
-        name,
-        geometry,
-        @shapes.Style::default(),
-      )
+      let style = match decode_style_or_default(value) {
+        Ok(value) => value
+        Err(error) => return Err(error)
+      }
+      @scenegraph.Node::create_shape(id, name, geometry, style)
     }
     "text" => {
       let text = match field_string(value, "text") {
@@ -332,13 +331,12 @@ fn decode_node(value : JsonValue) -> Result[@scenegraph.Node, JsonDecodeError] {
         Ok(font) => font
         Err(error) => return Err(error)
       }
+      let style = match decode_style_or_default(value) {
+        Ok(value) => value
+        Err(error) => return Err(error)
+      }
       @scenegraph.Node::create_text(
-        id,
-        name,
-        text,
-        font_size,
-        font_family,
-        @shapes.Style::default(),
+        id, name, text, font_size, font_family, style,
       )
     }
     "image" => {

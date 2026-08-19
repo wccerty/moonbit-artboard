@@ -1,0 +1,32 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wccerty/moonbit-artboard/cmd/bench"
+
+import {
+  "moonbitlang/core/debug",
+  "wccerty/moonbit-artboard/src/scenegraph",
+}
+
+// Values
+pub fn build_benchmark_document(Int) -> @scenegraph.ArtboardDocument
+
+pub fn document_checksum(@scenegraph.ArtboardDocument) -> Int
+
+pub fn format_benchmark_result(BenchmarkResult) -> String
+
+pub fn run_benchmark_suite() -> Array[BenchmarkResult]
+
+// Errors
+
+// Types and methods
+pub(all) struct BenchmarkResult {
+  name : String
+  sample_size : Int
+  iterations : Int
+  total_microseconds : Double
+  average_microseconds : Double
+  checksum : Int
+} derive(@debug.Debug)
+
+// Type aliases
+
+// Traits

@@ -14,6 +14,8 @@ pub fn apply_layout_constraints(@math.Rect2D, @math.Vec2, @math.Vec2, LayoutCons
 
 pub fn instantiate_component(ArtboardDocument, ComponentMaster, NodeID) -> NodeID?
 
+pub fn layout_grid(ArtboardDocument, NodeID, Int, Double, @math.Vec2) -> Array[GridPlacement]
+
 // Errors
 
 // Types and methods
@@ -31,16 +33,35 @@ pub(all) struct ArtboardDocument {
   mut height : Double
 } derive(@debug.Debug)
 pub fn ArtboardDocument::add_node(Self, Node, NodeID?) -> Unit
+pub fn ArtboardDocument::added_since(Self, Self) -> Array[NodeID]
+pub fn ArtboardDocument::ancestors(Self, NodeID) -> Array[NodeID]
+pub fn ArtboardDocument::count_locked(Self) -> Int
+pub fn ArtboardDocument::count_visible(Self) -> Int
+pub fn ArtboardDocument::depth_of(Self, NodeID) -> Int
+pub fn ArtboardDocument::descendants(Self, NodeID) -> Array[NodeID]
+pub fn ArtboardDocument::diff(Self, Self) -> DocumentDiff
+pub fn ArtboardDocument::find_by_name(Self, String) -> Array[NodeID]
+pub fn ArtboardDocument::find_name_contains(Self, String) -> Array[NodeID]
 pub fn ArtboardDocument::get_node(Self, NodeID) -> Node?
 pub fn ArtboardDocument::get_world_bounds(Self, NodeID) -> @math.Rect2D
 pub fn ArtboardDocument::get_world_matrix(Self, NodeID) -> @math.Matrix2D
 pub fn ArtboardDocument::group_nodes(Self, Array[NodeID]) -> NodeID?
+pub fn ArtboardDocument::is_ancestor(Self, NodeID, NodeID) -> Bool
+pub fn ArtboardDocument::leaf_node_ids(Self) -> Array[NodeID]
+pub fn ArtboardDocument::metrics(Self) -> DocumentMetrics
+pub fn ArtboardDocument::modified_since(Self, Self) -> Array[NodeID]
 pub fn ArtboardDocument::new(String, Double, Double) -> Self
+pub fn ArtboardDocument::node_type_name(Self, NodeID) -> String?
+pub fn ArtboardDocument::nodes_intersecting(Self, @math.Rect2D) -> Array[NodeID]
+pub fn ArtboardDocument::ordered_node_ids(Self) -> Array[NodeID]
 pub fn ArtboardDocument::remove_node(Self, NodeID) -> Bool
+pub fn ArtboardDocument::removed_since(Self, Self) -> Array[NodeID]
+pub fn ArtboardDocument::same_content(Self, Self) -> Bool
 pub fn ArtboardDocument::traverse(Self) -> Array[TraversalEntry]
 pub fn ArtboardDocument::ungroup_node(Self, NodeID) -> Array[NodeID]
 pub fn ArtboardDocument::update_node(Self, Node) -> Unit
 pub fn ArtboardDocument::validate(Self) -> DocumentValidationReport
+pub fn ArtboardDocument::visible_bounds(Self) -> @math.Rect2D
 
 pub(all) struct AutoLayoutConfig {
   direction : LayoutDirection
@@ -62,9 +83,41 @@ pub(all) struct ComponentMaster {
   root_node_id : NodeID
 } derive(Eq, @debug.Debug)
 
+pub(all) struct DocumentDiff {
+  added : Array[NodeID]
+  removed : Array[NodeID]
+  modified : Array[NodeID]
+  metadata_changed : Bool
+} derive(Eq, @debug.Debug)
+pub fn DocumentDiff::changed_count(Self) -> Int
+pub fn DocumentDiff::contains(Self, NodeID) -> Bool
+pub fn DocumentDiff::empty() -> Self
+pub fn DocumentDiff::has_changes(Self) -> Bool
+
+pub(all) struct DocumentMetrics {
+  node_count : Int
+  root_count : Int
+  leaf_count : Int
+  group_count : Int
+  shape_count : Int
+  text_count : Int
+  image_count : Int
+  artboard_count : Int
+  visible_count : Int
+  locked_count : Int
+  max_depth : Int
+  total_bounds : @math.Rect2D
+  total_area : Double
+} derive(Eq, @debug.Debug)
+
 pub(all) struct DocumentValidationReport {
   valid : Bool
   issues : Array[ValidationIssue]
+} derive(Eq, @debug.Debug)
+
+pub(all) struct GridPlacement {
+  node_id : NodeID
+  position : @math.Vec2
 } derive(Eq, @debug.Debug)
 
 pub(all) enum HorizontalConstraint {
@@ -157,6 +210,14 @@ pub(all) struct ShapeNodeData {
   geometry : @shapes.ShapeGeometry
   style : @shapes.Style
 } derive(Eq, @debug.Debug)
+
+pub(all) struct SnapGrid {
+  spacing : Double
+  origin : @math.Vec2
+}
+pub fn SnapGrid::new(Double, @math.Vec2) -> Self
+pub fn SnapGrid::snap_point(Self, @math.Vec2) -> @math.Vec2
+pub fn SnapGrid::snap_value(Self, Double) -> Double
 
 pub(all) struct TextData {
   text : String

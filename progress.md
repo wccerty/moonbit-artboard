@@ -1,12 +1,32 @@
 # Progress
 
-## 2026-08-19
+## 2026-08-19 local acceptance work
 
-- 读取并应用了 `using-superpowers`、`brainstorming`、`planning-with-files`、`writing-plans`、`moonbit-agent-guide`、`test-driven-development`、`verification-before-completion` 与网页研究技能说明。
-- 完成仓库结构、README、申报书只读盘点；申报书未修改。
-- 完成 MoonBit 基线命令与远端默认分支核对。
-- 完成公开 `osc2026-guide`、官方比赛页面、参考 CI 与 MoonBit 社区 workflow template 的资料核对。
-- 用户已确认详细设计；设计文档已写入 `docs/superpowers/specs/2026-08-19-moonbit-artboard-acceptance-design.md`，并完成范围与占位符自审。
-- 实现计划已写入 `docs/superpowers/plans/2026-08-19-moonbit-artboard-acceptance.md`，覆盖 11 个可验证任务并完成计划自审。
-- 执行前复审发现并修正 RenderPlan 与 Canvas 适配器的循环依赖；render 只产出计划，export 负责转换为 CanvasCommand，并明确视口可变字段与集成测试路径。
-- 尚未写生产代码；下一步开始 Task 1 的 TDD 红灯测试。
+- Completed the repository and competition self-audit using the available
+  MoonBit guidance and the public osc2026-guide checklist.
+- Kept OSC2026_August_Hackathon_Application.md unchanged; final SHA-256:
+  FB37F61B02D1466BC147D1266848FCAE39132686BDF5680B8D907B081267AE04.
+- Added production capabilities for numeric projection, path flattening and
+  analysis, safe scene traversal and diffs, uniform-grid spatial queries,
+  transformed hit testing, checked JSON/style persistence, viewport/render
+  planning, export lowering, grid layout, and pointer interaction control.
+- Added 91 passing tests, including malformed-input, cycle, degenerate
+  geometry, transformed hit, viewport, marquee, export-escaping, style
+  round-trip, and deterministic benchmark boundary cases.
+- Added cmd/bench and recorded a real wasm-gc benchmark run in
+  benchmarks/README.md; the second run preserved all checksums.
+- Added scripts/count-moonbit-lines.ps1, which excludes tests and generated
+  files and fails below 8,000 effective production lines. Current result:
+  8,173 lines across 74 production files.
+- Rewrote README into the requested open-source structure and added
+  docs/architecture.md plus docs/api-examples.md.
+- Replaced the CI workflow with stable-toolchain installation, interface and
+  formatting checks, deny-warning checks, three-platform wasm-gc testing, and
+  Ubuntu native verification/benchmark jobs.
+- Local verification completed: moon fmt --check, moon check --deny-warn,
+  moon info, moon test --deny-warn, moon run src/main --target wasm-gc,
+  moon run cmd/bench --target wasm-gc, source counting, and git diff --check.
+- The Windows native target remains blocked by the MoonBit runtime's
+  env.c:181 rand_s declaration error; the CI native job is Ubuntu-only.
+- No GitHub push, package publication, or external repository mutation was
+  performed in this local phase.

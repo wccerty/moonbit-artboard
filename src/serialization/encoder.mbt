@@ -126,12 +126,14 @@ fn encode_node(node : @scenegraph.Node) -> String {
           s = s + "\"pathData\":\"" + escape_json_string(p.to_string()) + "\""
         }
       }
+      s = s + ",\"style\":" + encode_style(shape_data.style)
     }
     TextNode(t) => {
       s = s + "\"type\":\"text\","
       s = s + "\"text\":\"" + escape_json_string(t.text) + "\","
       s = s + "\"fontSize\":" + t.font_size.to_string() + ","
-      s = s + "\"fontFamily\":\"" + escape_json_string(t.font_family) + "\""
+      s = s + "\"fontFamily\":\"" + escape_json_string(t.font_family) + "\","
+      s = s + "\"style\":" + encode_style(t.style)
     }
     ImageNode(img) => {
       s = s + "\"type\":\"image\","

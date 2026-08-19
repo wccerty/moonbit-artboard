@@ -1,0 +1,143 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wccerty/moonbit-artboard/src/interaction"
+
+import {
+  "moonbitlang/core/debug",
+  "wccerty/moonbit-artboard/src/math",
+  "wccerty/moonbit-artboard/src/scenegraph",
+  "wccerty/moonbit-artboard/src/selection",
+  "wccerty/moonbit-artboard/src/viewport",
+}
+
+// Values
+pub fn clamp_point_to_rect(@math.Vec2, @math.Rect2D) -> @math.Vec2
+
+pub fn clamp_rect_to_rect(@math.Rect2D, @math.Rect2D) -> @math.Rect2D
+
+pub fn constrain_delta(@math.Vec2, DragAxis) -> @math.Vec2
+
+pub fn cursor_for_handle(@selection.HandleKind) -> HandleCursor
+
+pub fn marquee_contains_or_intersects(@math.Rect2D, @math.Rect2D, Bool) -> Bool
+
+pub fn movement_distance(@math.Vec2) -> Double
+
+pub fn normalized_marquee(@math.Vec2, @math.Vec2) -> @math.Rect2D
+
+pub fn preserve_aspect_size(Double, Double, Double, Double) -> @math.Vec2
+
+pub fn resize_bounds(@math.Rect2D, @selection.HandleKind, @math.Vec2, Bool, Bool) -> @math.Rect2D
+
+pub fn rotation_delta(@math.Vec2, @math.Vec2, @math.Vec2) -> Double
+
+pub fn safe_zoom_factor(Double) -> Double
+
+pub fn should_start_drag(@math.Vec2, @math.Vec2, Double) -> Bool
+
+pub fn snap_scalar(Double, Double) -> Double
+
+pub fn snapped_delta(@math.Vec2, Double) -> @math.Vec2
+
+pub fn symmetric_resize(@math.Rect2D, @math.Vec2) -> @math.Rect2D
+
+pub fn translated_matrix(@math.Matrix2D, @math.Vec2) -> @math.Matrix2D
+
+// Errors
+
+// Types and methods
+pub(all) enum DragAxis {
+  Free
+  Horizontal
+  Vertical
+} derive(Eq, @debug.Debug)
+
+pub(all) enum HandleCursor {
+  Default
+  Move
+  ResizeNorthWestSouthEast
+  ResizeNorthEastSouthWest
+  ResizeHorizontal
+  ResizeVertical
+  Rotate
+} derive(Eq, @debug.Debug)
+
+pub(all) struct InteractionController {
+  mut current_mode : InteractionMode
+  mut last_screen_position : @math.Vec2
+  mut drag_start_world : @math.Vec2
+  mut drag_node : @scenegraph.NodeID?
+  mut drag_transform : @math.Matrix2D
+  mut marquee_start : @math.Vec2?
+  mut last_marquee : @math.Rect2D?
+  mut selection : @selection.SelectionManager
+  mut viewport_state : @viewport.Viewport
+} derive(@debug.Debug)
+pub fn InteractionController::cancel(Self) -> Unit
+pub fn InteractionController::is_selected(Self, @scenegraph.NodeID) -> Bool
+pub fn InteractionController::marquee(Self) -> @math.Rect2D?
+pub fn InteractionController::mode(Self) -> InteractionMode
+pub fn InteractionController::new(@viewport.Viewport) -> Self
+pub fn InteractionController::pointer_down(Self, @scenegraph.ArtboardDocument, PointerEvent) -> InteractionResult
+pub fn InteractionController::pointer_move(Self, @scenegraph.ArtboardDocument, PointerEvent) -> InteractionResult
+pub fn InteractionController::pointer_up(Self, @scenegraph.ArtboardDocument, PointerEvent) -> InteractionResult
+pub fn InteractionController::selection_count(Self) -> Int
+pub fn InteractionController::viewport(Self) -> @viewport.Viewport
+pub fn InteractionController::wheel(Self, WheelEvent) -> InteractionResult
+
+pub(all) enum InteractionMode {
+  Idle
+  Marquee
+  Translating
+  Panning
+} derive(Eq, @debug.Debug)
+
+pub(all) struct InteractionResult {
+  consumed : Bool
+  hit : @scenegraph.NodeID?
+  marquee : @math.Rect2D?
+  selection_changed : Bool
+  viewport_changed : Bool
+  mode : InteractionMode
+} derive(Eq, @debug.Debug)
+
+pub(all) struct Modifiers {
+  shift : Bool
+  control : Bool
+  alt : Bool
+  meta : Bool
+} derive(Eq, @debug.Debug)
+pub fn Modifiers::none() -> Self
+pub fn Modifiers::shift() -> Self
+pub fn Modifiers::with_alt(Self, Bool) -> Self
+pub fn Modifiers::with_control(Self, Bool) -> Self
+pub fn Modifiers::with_shift(Self, Bool) -> Self
+
+pub(all) enum PointerButton {
+  Primary
+  Secondary
+  Middle
+} derive(Eq, @debug.Debug)
+
+pub(all) struct PointerEvent {
+  screen_position : @math.Vec2
+  button : PointerButton
+  modifiers : Modifiers
+  pointer_id : Int
+} derive(Eq, @debug.Debug)
+pub fn PointerEvent::middle(@math.Vec2) -> Self
+pub fn PointerEvent::new(@math.Vec2, PointerButton, Modifiers) -> Self
+pub fn PointerEvent::primary(@math.Vec2) -> Self
+pub fn PointerEvent::with_modifiers(Self, Modifiers) -> Self
+pub fn PointerEvent::with_pointer_id(Self, Int) -> Self
+
+pub(all) struct WheelEvent {
+  screen_position : @math.Vec2
+  delta_y : Double
+  modifiers : Modifiers
+} derive(Eq, @debug.Debug)
+pub fn WheelEvent::new(@math.Vec2, Double) -> Self
+pub fn WheelEvent::with_modifiers(Self, Modifiers) -> Self
+
+// Type aliases
+
+// Traits

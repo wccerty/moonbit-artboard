@@ -20,6 +20,8 @@ pub fn flatten_quadratic(QuadraticBezier, Double, Int) -> Array[Vec2]
 
 pub fn interpolate_catmull_rom_spline(Array[Vec2], Int) -> Array[Vec2]
 
+pub fn interpolate_transform(Matrix2D, Matrix2D, Double) -> Matrix2D
+
 pub fn nearly_equal(Double, Double, Double) -> Bool
 
 pub fn project_point_to_segment(Vec2, Vec2, Vec2) -> SegmentProjection
@@ -52,12 +54,21 @@ pub struct Matrix2D {
   tx : Double
   ty : Double
 } derive(Eq, @debug.Debug)
+pub fn Matrix2D::approximately_equal(Self, Self, Double) -> Bool
+pub fn Matrix2D::around(Self, Vec2) -> Self
+pub fn Matrix2D::components(Self) -> TransformComponents
 pub fn Matrix2D::decompose(Self) -> MatrixDecomposition
 pub fn Matrix2D::determinant(Self) -> Double
 pub fn Matrix2D::identity() -> Self
 pub fn Matrix2D::invert(Self) -> Self?
+pub fn Matrix2D::is_identity(Self, Double) -> Bool
+pub fn Matrix2D::lerp(Self, Self, Double) -> Self
+pub fn Matrix2D::maximum_scale(Self) -> Double
+pub fn Matrix2D::minimum_scale(Self) -> Double
 pub fn Matrix2D::multiply(Self, Self) -> Self
 pub fn Matrix2D::new(Double, Double, Double, Double, Double, Double) -> Self
+pub fn Matrix2D::reflection_x() -> Self
+pub fn Matrix2D::reflection_y() -> Self
 pub fn Matrix2D::rotation(Double) -> Self
 pub fn Matrix2D::rotation_at(Double, Vec2) -> Self
 pub fn Matrix2D::scaling(Double, Double) -> Self
@@ -65,8 +76,11 @@ pub fn Matrix2D::scaling_at(Double, Double, Vec2) -> Self
 pub fn Matrix2D::shearing(Double, Double) -> Self
 pub fn Matrix2D::transform_bounds(Self, Rect2D) -> Rect2D
 pub fn Matrix2D::transform_point(Self, Vec2) -> Vec2
+pub fn Matrix2D::transform_points(Self, Array[Vec2]) -> Array[Vec2]
 pub fn Matrix2D::transform_vector(Self, Vec2) -> Vec2
 pub fn Matrix2D::translation(Double, Double) -> Self
+pub fn Matrix2D::uniform_scale(Self) -> Double
+pub fn Matrix2D::with_translation(Self, Vec2) -> Self
 
 pub(all) struct Matrix4x4 {
   m00 : Double
@@ -138,6 +152,17 @@ pub(all) struct SegmentProjection {
   parameter : Double
   distance_squared : Double
 } derive(Eq, @debug.Debug)
+
+pub(all) struct TransformComponents {
+  translation : Vec2
+  scale : Vec2
+  rotation : Double
+  skew : Vec2
+} derive(Eq, @debug.Debug)
+pub fn TransformComponents::identity() -> Self
+pub fn TransformComponents::lerp(Self, Self, Double) -> Self
+pub fn TransformComponents::new(Vec2, Vec2, Double, Vec2) -> Self
+pub fn TransformComponents::to_matrix(Self) -> Matrix2D
 
 pub(all) struct Triangle2D {
   p0 : Vec2

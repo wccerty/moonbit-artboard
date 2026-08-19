@@ -65,3 +65,45 @@ test "Document decoder reports missing required fields" {
     Err(error) => assert_true(error.message.contains("width"))
   }
 }
+
+///|
+test "Document round trip preserves shape style fields" {
+  let doc = @scenegraph.ArtboardDocument::new("Styled", 100.0, 100.0)
+  let base = @shapes.Style::default()
+  let style = {
+    ..base,
+    fill: @shapes.Fill::solid(@shapes.RGBA::red()),
+    stroke: None,
+    opacity: 0.42,
+    blend_mode: @shapes.BlendMode::Multiply,
+  }
+  let id = @scenegraph.NodeID::new("styled")
+  doc.add_node(
+    @scenegraph.Node::create_shape(
+      id,
+      "Styled",
+      @shapes.ShapeGeometry::rectangle(10.0, 10.0, 0.0, 0.0),
+      style,
+    ),
+    None,
+  )
+  match decode_document_checked(encode_document(doc)) {
+    Ok(decoded) =>
+      match decoded.get_node(id) {
+        Some(node) =>
+          match node.node_type {
+            @scenegraph.NodeType::ShapeNode(data) => {
+              assert_true(
+                @math.nearly_equal(data.style.opacity, 0.42, 0.000001),
+              )
+              assert_eq(data.style.blend_mode, @shapes.BlendMode::Multiply)
+              assert_true(data.style.fill is @shapes.Fill::Solid(_))
+              assert_true(data.style.stroke is None)
+            }
+            _ => assert_true(false)
+          }
+        None => assert_true(false)
+      }
+    Err(_) => assert_true(false)
+  }
+}

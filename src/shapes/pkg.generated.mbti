@@ -17,15 +17,27 @@ pub fn format_svg_path(Path) -> String
 
 pub fn geometry_contains_point(ShapeGeometry, @math.Vec2, Double) -> Bool
 
+pub fn measure_path(Path, Double, Int) -> PathMeasurement
+
 pub fn parse_svg_path(String) -> Path
 
 pub fn path_contains_point(Path, @math.Vec2, Double) -> Bool
 
 pub fn path_distance_to_point(Path, @math.Vec2, Double) -> Double
 
+pub fn path_is_closed(Path, Double) -> Bool
+
+pub fn point_at_length(Path, Double, Double, Int) -> @math.Vec2
+
 pub fn render_gradient_mesh_svg(GradientMesh) -> String
 
 pub fn render_mesh_patch_to_svg_path(MeshPatch) -> String
+
+pub fn resample_path(Path, Double, Double, Int) -> Array[@math.Vec2]
+
+pub fn simplify_polyline(Array[@math.Vec2], Double) -> Array[@math.Vec2]
+
+pub fn tangent_at_length(Path, Double, Double, Int) -> @math.Vec2
 
 // Errors
 
@@ -132,6 +144,15 @@ pub fn PathBuilder::move_to(Self, @math.Vec2) -> Self
 pub fn PathBuilder::new() -> Self
 pub fn PathBuilder::quad_to(Self, @math.Vec2, @math.Vec2) -> Self
 
+pub(all) struct PathMeasurement {
+  length : Double
+  area : Double
+  centroid : @math.Vec2
+  bounds : @math.Rect2D
+  subpath_count : Int
+  point_count : Int
+} derive(Eq, @debug.Debug)
+
 pub enum PathSegment {
   MoveTo(@math.Vec2)
   LineTo(@math.Vec2)
@@ -204,6 +225,7 @@ pub(all) enum ShapeGeometry {
 } derive(Eq, @debug.Debug)
 pub fn ShapeGeometry::ellipse(Double, Double) -> Self
 pub fn ShapeGeometry::line(@math.Vec2, @math.Vec2) -> Self
+pub fn ShapeGeometry::measure(Self, Double, Int) -> PathMeasurement
 pub fn ShapeGeometry::path(Path) -> Self
 pub fn ShapeGeometry::polygon(Int, Double) -> Self
 pub fn ShapeGeometry::polyline(Array[@math.Vec2], Bool) -> Self

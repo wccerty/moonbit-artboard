@@ -1,0 +1,13 @@
+import {
+  "wccerty/moonbit-artboard/src/math",
+  "wccerty/moonbit-artboard/src/shapes",
+  "wccerty/moonbit-artboard/src/scenegraph",
+  "wccerty/moonbit-artboard/src/spatial",
+  "wccerty/moonbit-artboard/src/viewport",
+  "wccerty/moonbit-artboard/src/render",
+  "wccerty/moonbit-artboard/src/export",
+  "wccerty/moonbit-artboard/src/serialization",
+  "moonbitlang/core/bench" @clock,
+}
+
+pkgtype(kind: "executable")

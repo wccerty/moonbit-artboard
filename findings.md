@@ -37,3 +37,12 @@
 - 八月黑客松只检查 GitHub 提交材料，不需要 GitLink；申报书应保持为外部材料，不纳入 README 内部问答。
 - 官方/社区 CI 参考包括 `moon version --all`、`moon update`、`moon check --target all`、`moon test --target all`、`moon fmt` 与 `moon info` 后检查工作树无生成差异；示例项目还覆盖三平台，并在可行平台做 native 测试。
 
+## 最终本地验收证据（2026-08-19）
+
+- MoonBit toolchain remains `moon 0.1.20260814` / `moonc v0.10.8+8606a5800`; `moon.mod` keeps `wasm-gc` as the preferred target.
+- `moon test --deny-warn`: 91/91 passed. `moon check --deny-warn`, `moon fmt --check`, `moon info`, `moon run src/main --target wasm-gc`, and `git diff --check` completed successfully.
+- `pwsh -NoProfile -File scripts/count-moonbit-lines.ps1`: 74 production files, 8,173 effective production lines; the script exits non-zero below 8,000.
+- The wasm-gc benchmark was run twice. Checksums were stable: 1,069,760 for 32 nodes, 3,192,672 for 256 nodes, and 4,264,920 for 1,024 nodes. Raw output and measured timings are recorded in `benchmarks/README.md`.
+- `moon test --target native --deny-warn` still fails on this Windows host in MoonBit runtime `env.c:181` because `rand_s` is implicitly declared. This is recorded as an environment/toolchain limitation; the CI native job is scoped to Ubuntu.
+- `origin` reports `main` as its default branch and the local branch is ahead of it; the current work remains local and has not been pushed.
+- The root `LICENSE` is Apache-2.0. README checks found all required sections and no internal competition wording. The application SHA-256 remained `FB37F61B02D1466BC147D1266848FCAE39132686BDF5680B8D907B081267AE04`.

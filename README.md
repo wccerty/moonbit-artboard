@@ -1,78 +1,142 @@
-# moonbit-artboard
+# MoonBit Artboard
 
-> High-Performance Vector Artboard Data Model & Interactive Editing Engine written in pure **MoonBit** for WebAssembly (WASM-GC).
+[![CI](https://github.com/wccerty/moonbit-artboard/actions/workflows/ci.yml/badge.svg)](https://github.com/wccerty/moonbit-artboard/actions/workflows/ci.yml)
+[![MoonBit](https://img.shields.io/badge/MoonBit-stable-blue)](https://www.moonbitlang.com/)
+[![Target](https://img.shields.io/badge/target-WASM--GC-orange)](https://www.moonbitlang.com/)
+[![License](https://img.shields.io/badge/license-Apache--2.0-green)](LICENSE)
 
-[![CI Test & Build](https://github.com/wccerty/moonbit-artboard/actions/workflows/ci.yml/badge.svg)](https://github.com/wccerty/moonbit-artboard/actions/workflows/ci.yml)
-[![MoonBit Version](https://img.shields.io/badge/MoonBit-0.10.4-blue.svg)](https://www.moonbitlang.com/)
-[![Target](https://img.shields.io/badge/Target-WASM--GC-orange.svg)](https://www.moonbitlang.com/)
-[![License](https://img.shields.io/badge/License-Apache_2.0-green.svg)](LICENSE)
+## Project Overview
 
----
+MoonBit Artboard is a dependency-light 2D vector editing kernel. It provides a
+scene graph, affine geometry, shape-aware hit testing, viewport culling, a
+backend-neutral render plan, checked document persistence, and export adapters
+for applications that need a deterministic artboard model in WebAssembly.
 
-## 📌 Project Overview
+The repository is organized as reusable MoonBit packages. The core model is
+independent of a browser UI: a host can connect pointer events and render
+commands to Canvas 2D, SVG, or another backend.
 
-`moonbit-artboard` is a production-grade, zero-dependency 2D vector graphic canvas and interactive design editor kernel built from scratch in MoonBit. It is designed to power WebAssembly-native graphic design applications, design tools, and vector node scene-graph manipulation engines (similar to Figma, Illustrator, and Canvas 2D kernels).
+## Core Capabilities
 
-### 🌟 Key Features
+- Affine geometry with vectors, rectangles, Bezier curves, path flattening,
+  distance queries, triangulation, and transform decomposition.
+- Vector primitives including rectangles, ellipses, polygons, stars, lines,
+  polylines, SVG paths, gradients, strokes, shadows, and text metrics.
+- Mutable scene graph with parent-child transforms, deterministic traversal,
+  visibility and lock state, grouping, constraints, auto layout, validation,
+  document queries, and structural diffs.
+- Grid spatial index with reverse cell membership, query statistics, viewport
+  culling, shape-aware hit testing, and transformed-node selection.
+- Selection, transform handles, snapping, pointer gestures, marquee selection,
+  pan/zoom control, and bounded undo/redo commands.
+- Backend-neutral RenderPlan, Canvas 2D command lowering, SVG export, JSON
+  encoding/checked decoding, SVG import, and a small PDF stream adapter.
 
-- **2D & 3D Affine Geometry Engine**: Full 2D matrix transformation engine (`Matrix2D`), cubic/quadratic Bezier evaluation (`CubicBezier`, `QuadraticBezier`), 3D perspective transformation matrices (`Matrix4x4`), and Ear Clipping polygon triangulation algorithms.
-- **Rich Vector Primitive Systems**: Rectangles (rounded corners), Ellipses, Polygons, N-Point Stars, Lines, Polylines, and pure MoonBit SVG Path string parser & tokenizer (`parse_svg_path`).
-- **Scene-Graph Tree & Transform Hierarchy**: Document node tree with parent-child matrix accumulation (`ArtboardDocument`), Group/Ungroup node commands, layer z-ordering, and Flexbox-style Auto Layout framing engine.
-- **Interactive Selection & Controllers**: Bounding box union calculations, 8-point resize handle controllers, rotation handles, and smart alignment guides with edge/center snapping.
-- **Undo / Redo History Stack**: Command pattern transaction manager (`UndoManager`) supporting atomic operations, batch transactions, and history depth bounds.
-- **Spatial Indexing & Hit Testing**: Winding number point-in-path hit testing and Grid Spatial Partitioning index for fast viewport culling.
-- **Dual Exporter & Code Generator**: Native SVG document exporter (`export_to_svg`), Canvas 2D instruction stream compiler (`generate_canvas_instructions`), Vector PDF document adapter (`export_to_pdf`), and HTML5 Canvas code generator.
+## Quick Start
 
----
+Install the current stable MoonBit toolchain, then run the project checks:
 
-## 📊 Code Scale & Architecture Sitemap
-
-This repository contains **5,713 lines** of clean, idiomatic MoonBit code across 10 modules:
-
-| Module Package | Description | Submodules & Features |
-| :--- | :--- | :--- |
-| `src/math` | Math & Matrix Kernel | Vector algebra, 2D/3D affine matrix, Bezier curves, B-Splines, Triangulation |
-| `src/shapes` | Vector Shapes & Color | RGBA color space, Hex parsing, Styles, Bezier path builders, Text typography, Boolean ops, Mesh Gradients |
-| `src/scenegraph` | Scene-Graph Node Tree | Artboard document, Node repository, Layer z-index, Auto Layout, Component instances, Layout constraints |
-| `src/spatial` | Spatial Indexing | Winding Number hit testing, Grid spatial index culling |
-| `src/selection` | Selection Engine | Selection manager, 8-handle transform controllers |
-| `src/history` | Undo / Redo Manager | Command pattern, Transaction manager, History stack |
-| `src/tools` | Interactive Tool Engine | Tool state machine, Alignment guides, Interactive Pen tool bezier engine |
-| `src/serialization` | Serialization & AST | Document JSON encoder, JsonValue AST parser, SVG XML importer |
-| `src/export` | Export Adapters | SVG exporter, Canvas 2D instruction stream, PDF exporter, HTML5 Canvas code generator |
-| `src/main` | Entry Demo | Integration showcase & preset artwork generation |
-
----
-
-## 🚀 Quick Start & Build Instructions
-
-### Prerequisites
-
-- [MoonBit Compiler Toolchain](https://www.moonbitlang.com/download/) (v0.10.4 / latest)
-
-### Build & Run Commands
-
-```bash
-# 1. Format code and check formatting compliance
+~~~~bash
 moon fmt
-
-# 2. Check package interface files
 moon info
-
-# 3. Run the full unit test suite (36 passing tests)
-moon test
-
-# 4. Compile and execute the main integration demo
+moon check --deny-warn
+moon test --deny-warn
 moon run src/main
-```
+~~~~
 
----
+The default target is wasm-gc, as declared in moon.mod. Native builds are also
+useful for local tools and can be selected with --target native.
 
-## 🏆 Open Source Competition (OSC 2026) Submission
+## CLI
 
-This project is submitted to **OSC 2026 (Open Source Contest 2026)**.
+The repository includes two runnable examples:
 
-- **Author & Contributor**: `wccerty` (Single contributor, fully matched across GitHub and GitLink).
-- **GitHub Repository**: [https://github.com/wccerty/moonbit-artboard](https://github.com/wccerty/moonbit-artboard)
-- **GitLink Repository**: [https://www.gitlink.org.cn/Wccerty/moonbit-artboard](https://www.gitlink.org.cn/Wccerty/moonbit-artboard)
-- **License**: Apache-2.0 License
+~~~~bash
+# Integration showcase
+moon run src/main
+
+# Deterministic query → render → Canvas → JSON benchmark
+moon run cmd/bench --target wasm-gc
+~~~~
+
+The benchmark command prints the target, sample size, iteration count, elapsed
+microseconds, average time, and a checksum. The checksum makes it possible to
+verify that repeated runs process the same result.
+
+## Architecture
+
+The data flow is intentionally layered:
+
+~~~~text
+ArtboardDocument
+      │
+      ├── traversal + validation + world bounds
+      │       │
+      │       ├── GridSpatialIndex / hit testing
+      │       └── Viewport culling
+      │
+      └── RenderPlan
+              ├── Canvas 2D command stream
+              ├── SVG exporter
+              └── host-specific renderer
+~~~~
+
+Package responsibilities and dependency direction are documented in
+[docs/architecture.md](docs/architecture.md). A compact API walkthrough is
+available in [docs/api-examples.md](docs/api-examples.md).
+
+## Benchmarks
+
+The benchmark measures one fixed workflow: spatial query, viewport-aware render
+plan compilation, Canvas command lowering, and JSON encoding. It uses a
+monotonic clock, one warm-up iteration, fixed inputs, and explicit checksums.
+
+Reference wasm-gc run on 2026-08-19 with MoonBit 0.1.20260814:
+
+| Sample nodes | Iterations | Total (µs) | Average (µs) | Checksum |
+| ---: | ---: | ---: | ---: | ---: |
+| 32 | 64 | 31,236.4 | 488.06875 | 1069760 |
+| 256 | 24 | 557,916.9 | 23246.537500000002 | 3192672 |
+| 1024 | 8 | 4,725,333.6 | 590666.7 | 4264920 |
+
+These are target- and machine-specific measurements, not hardware-independent
+performance claims. See [benchmarks/README.md](benchmarks/README.md) for the
+methodology and source-count command.
+
+## Testing
+
+The current local suite contains 91 passing tests, including boundary cases
+for malformed JSON, cycles, transformed hit testing, empty geometry, degenerate
+curves, viewport edges, marquee selection, render culling, export escaping,
+history limits, and deterministic benchmark inputs.
+
+~~~~bash
+moon fmt --check
+moon check --deny-warn
+moon test --deny-warn
+~~~~
+
+Production source size is measured by the repository script rather than by
+counting documentation, generated interfaces, or test files:
+
+~~~~powershell
+pwsh -NoProfile -File scripts/count-moonbit-lines.ps1
+~~~~
+
+The current measured result is 8,173 effective MoonBit production lines across
+74 source files.
+
+## CI
+
+.github/workflows/ci.yml runs on pushes, pull requests, and manual dispatch.
+It installs the current stable MoonBit toolchain, checks formatting and
+generated interfaces, runs deny-warning checks and the full test suite on
+Ubuntu, macOS, and Windows, and runs the native benchmark/verification job on
+Ubuntu.
+
+The workflow uses read-only repository permissions and does not publish
+artifacts or packages.
+
+## License
+
+MoonBit Artboard is available under the [Apache License 2.0](LICENSE).

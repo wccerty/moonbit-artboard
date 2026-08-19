@@ -16,12 +16,13 @@
 
 - [completed] 1. 项目上下文、远程元数据、基线与竞赛自查规则
 - [completed] 2. 设计确认与实现计划
-- [in_progress] 3. 核心生产能力扩展与回归测试
-- [pending] 4. 基准工具、真实数据与规模统计
-- [pending] 5. README、CI、许可证与仓库清洁度
-- [pending] 6. 全量验证、最终自查报告与本地交付
+- [completed] 3. 核心生产能力扩展与回归测试
+- [completed] 4. 基准工具、真实数据与规模统计
+- [completed] 5. README、CI、许可证与仓库清洁度
+- [completed] 6. 全量验证、最终自查报告与本地交付
 
 ## 当前阻塞/待确认
 
 - `firecrawl` CLI 未安装，`npx firecrawl` 因 npm 缓存权限失败；已用内置网页读取能力完成公开资料核对。
 - 设计已获用户确认；实现计划已写入 `docs/superpowers/plans/2026-08-19-moonbit-artboard-acceptance.md` 并完成自审。
+- Windows native 验证受 MoonBit runtime `env.c` 中 `rand_s` 声明错误阻塞；Ubuntu native 已作为 CI 专用 job 配置。

@@ -17,9 +17,19 @@ pub fn hit_test_geometry(@shapes.ShapeGeometry, @math.Vec2, Double) -> Bool
 
 pub fn hit_test_node(@scenegraph.ArtboardDocument, @scenegraph.NodeID, @math.Vec2) -> Bool
 
+pub fn nearest_document_node(GridSpatialIndex, @scenegraph.ArtboardDocument, @math.Vec2, Double, SpatialQueryOptions) -> @scenegraph.NodeID?
+
 pub fn point_in_polygon(@math.Vec2, Array[@math.Vec2]) -> Bool
 
 pub fn point_in_rect(@math.Vec2, @math.Rect2D) -> Bool
+
+pub fn query_all_document(GridSpatialIndex, @scenegraph.ArtboardDocument, @math.Rect2D) -> Array[@scenegraph.NodeID]
+
+pub fn query_document(GridSpatialIndex, @scenegraph.ArtboardDocument, @math.Rect2D, SpatialQueryOptions) -> Array[@scenegraph.NodeID]
+
+pub fn query_editable_document(GridSpatialIndex, @scenegraph.ArtboardDocument, @math.Rect2D) -> Array[@scenegraph.NodeID]
+
+pub fn query_visible_document(GridSpatialIndex, @scenegraph.ArtboardDocument, @math.Rect2D) -> Array[@scenegraph.NodeID]
 
 // Errors
 
@@ -52,6 +62,16 @@ pub(all) struct SpatialItem {
   id : @scenegraph.NodeID
   bounds : @math.Rect2D
 } derive(Eq, @debug.Debug)
+
+pub(all) struct SpatialQueryOptions {
+  include_invisible : Bool
+  include_locked : Bool
+  exact_bounds : Bool
+} derive(Eq, @debug.Debug)
+pub fn SpatialQueryOptions::default() -> Self
+pub fn SpatialQueryOptions::including_hidden() -> Self
+pub fn SpatialQueryOptions::including_locked() -> Self
+pub fn SpatialQueryOptions::visible_only() -> Self
 
 // Type aliases
 

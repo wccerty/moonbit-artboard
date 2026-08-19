@@ -4,6 +4,7 @@ package "wccerty/moonbit-artboard/src/serialization"
 import {
   "moonbitlang/core/debug",
   "wccerty/moonbit-artboard/src/scenegraph",
+  "wccerty/moonbit-artboard/src/shapes",
 }
 
 // Values
@@ -11,7 +12,11 @@ pub fn decode_document(String) -> @scenegraph.ArtboardDocument
 
 pub fn decode_document_checked(String) -> Result[@scenegraph.ArtboardDocument, JsonDecodeError]
 
+pub fn decode_style(JsonValue) -> Result[@shapes.Style, JsonDecodeError]
+
 pub fn encode_document(@scenegraph.ArtboardDocument) -> String
+
+pub fn encode_style(@shapes.Style) -> String
 
 pub fn parse_json(String) -> Result[JsonValue, JsonDecodeError]
 

@@ -8,7 +8,7 @@ pub(all) struct RenderStats {
 } derive(Eq, Debug)
 
 ///|
-fn RenderStats::empty() -> RenderStats {
+pub fn RenderStats::empty() -> RenderStats {
   {
     visited_nodes: 0,
     visible_nodes: 0,

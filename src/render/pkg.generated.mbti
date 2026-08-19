@@ -29,6 +29,21 @@ pub(all) struct RenderPlan {
   ops : Array[RenderOp]
   stats : RenderStats
 } derive(Eq, @debug.Debug)
+pub fn RenderPlan::contains_transparency(Self) -> Bool
+pub fn RenderPlan::count_paths(Self) -> Int
+pub fn RenderPlan::draw_operation_count(Self) -> Int
+pub fn RenderPlan::estimated_cost(Self) -> Int
+pub fn RenderPlan::has_draw_operations(Self) -> Bool
+pub fn RenderPlan::operation_count(Self) -> Int
+pub fn RenderPlan::validate(Self) -> RenderPlanReport
+
+pub(all) struct RenderPlanReport {
+  valid : Bool
+  operation_count : Int
+  draw_operation_count : Int
+  max_save_depth : Int
+  errors : Array[String]
+} derive(Eq, @debug.Debug)
 
 pub(all) struct RenderStats {
   mut visited_nodes : Int
@@ -37,6 +52,7 @@ pub(all) struct RenderStats {
   mut draw_ops : Int
   mut path_segments : Int
 } derive(Eq, @debug.Debug)
+pub fn RenderStats::empty() -> Self
 
 // Type aliases
 

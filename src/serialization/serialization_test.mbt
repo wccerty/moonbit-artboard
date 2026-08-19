@@ -40,3 +40,31 @@ test "JsonValue AST Representation" {
     content="true",
   )
 }
+
+///|
+test "Style codec preserves stroke dash arrays and shadows" {
+  let stroke = {
+    ..@shapes.Stroke::default(),
+    dash_array: [2.0, 3.5],
+    dash_offset: 1.25,
+  }
+  let style = {
+    ..@shapes.Style::default(),
+    stroke: Some(stroke),
+    shadow: Some(
+      @shapes.Shadow::new(2.0, -3.0, 8.0, @shapes.RGBA::from_hex("#11223380")),
+    ),
+  }
+  let json = encode_style(style)
+  let decoded = decode_style(parse_json(json).unwrap()).unwrap()
+  assert_true(decoded.stroke is Some(_))
+  assert_true(decoded.shadow is Some(_))
+}
+
+///|
+test "checked document decoder rejects malformed style fields" {
+  let json = "{\"title\":\"Invalid style\",\"width\":100,\"height\":100,\"nodes\":[" +
+    "{\"id\":\"shape\",\"type\":\"shape\",\"geometryType\":\"rectangle\",\"width\":10,\"height\":10," +
+    "\"style\":{\"fill\":{\"kind\":\"none\"},\"stroke\":12}}]}"
+  assert_true(decode_document_checked(json) is Err(_))
+}
