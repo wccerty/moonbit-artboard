@@ -49,9 +49,13 @@ pub fn hit_test_node(
       if !bounds.contains_point(point) {
         return false
       }
+      let local_point = match doc.get_world_matrix(node_id).invert() {
+        None => return false
+        Some(inverse) => inverse.transform_point(point)
+      }
       match node.node_type {
         GroupNode(children) => {
-          for i = 0; i < children.length(); i = i + 1 {
+          for i = children.length() - 1; i >= 0; i = i - 1 {
             if hit_test_node(doc, children[i], point) {
               return true
             }
@@ -60,9 +64,19 @@ pub fn hit_test_node(
         }
         ShapeNode(s) => {
           let path = s.geometry.to_path()
-          path.bounds().contains_point(point)
+          let fill_hit = match s.style.fill {
+            None => false
+            _ => hit_test_geometry(s.geometry, local_point, 0.25)
+          }
+          let stroke_hit = match s.style.stroke {
+            None => false
+            Some(stroke) =>
+              @vshapes.path_distance_to_point(path, local_point, 0.25) <=
+              stroke.width * 0.5 + 0.25
+          }
+          fill_hit || stroke_hit
         }
-        _ => true
+        _ => node.local_bounds().contains_point(local_point)
       }
     }
   }
@@ -73,12 +87,12 @@ pub fn hit_test_document(
   doc : @scenegraph.ArtboardDocument,
   point : @math.Vec2,
 ) -> @scenegraph.NodeID? {
-  // Search root nodes in reverse z-index order (top-most first)
-  let len = doc.root_ids.length()
-  for i = len - 1; i >= 0; i = i - 1 {
-    let id = doc.root_ids[i]
-    if hit_test_node(doc, id, point) {
-      return Some(id)
+  let entries = doc.traverse()
+  for i = entries.length() - 1; i >= 0; i = i - 1 {
+    let entry = entries[i]
+    if entry.world_bounds.contains_point(point) &&
+      hit_test_node(doc, entry.id, point) {
+      return Some(entry.id)
     }
   }
   None

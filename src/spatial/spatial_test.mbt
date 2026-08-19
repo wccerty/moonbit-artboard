@@ -25,14 +25,14 @@ test "Grid Spatial Index Culling" {
   let n1 = @scenegraph.Node::create_shape(
     id1,
     "N1",
-    @shapes.ShapeGeometry::rectangle(50.0, 50.0, 0.0, 0.0),
-    @shapes.Style::default(),
+    @vshapes.ShapeGeometry::rectangle(50.0, 50.0, 0.0, 0.0),
+    @vshapes.Style::default(),
   )
   let mut n2 = @scenegraph.Node::create_shape(
     id2,
     "N2",
-    @shapes.ShapeGeometry::rectangle(50.0, 50.0, 0.0, 0.0),
-    @shapes.Style::default(),
+    @vshapes.ShapeGeometry::rectangle(50.0, 50.0, 0.0, 0.0),
+    @vshapes.Style::default(),
   )
   n2 = { ..n2, transform: @math.Matrix2D::translation(500.0, 500.0) }
 

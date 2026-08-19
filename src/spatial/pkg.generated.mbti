@@ -5,9 +5,11 @@ import {
   "moonbitlang/core/debug",
   "wccerty/moonbit-artboard/src/math",
   "wccerty/moonbit-artboard/src/scenegraph",
+  "wccerty/moonbit-artboard/src/shapes",
 }
 
 // Values
+pub fn hit_test_geometry(@shapes.ShapeGeometry, @math.Vec2, Double) -> Bool
 
 // Errors
 
@@ -15,12 +17,26 @@ import {
 pub(all) struct GridSpatialIndex {
   cell_size : Double
   items : Array[SpatialItem]
+  buckets : Map[String, Array[@scenegraph.NodeID]]
+  item_cells : Map[String, Array[String]]
+  mut last_stats : SpatialIndexStats
 } derive(@debug.Debug)
 pub fn GridSpatialIndex::build_from_doc(@scenegraph.ArtboardDocument, Double) -> Self
 pub fn GridSpatialIndex::clear(Self) -> Unit
 pub fn GridSpatialIndex::insert(Self, @scenegraph.NodeID, @math.Rect2D) -> Unit
 pub fn GridSpatialIndex::new(Double) -> Self
 pub fn GridSpatialIndex::query_rect(Self, @math.Rect2D) -> Array[@scenegraph.NodeID]
+pub fn GridSpatialIndex::query_rect_with_stats(Self, @math.Rect2D) -> (Array[@scenegraph.NodeID], SpatialIndexStats)
+pub fn GridSpatialIndex::remove(Self, @scenegraph.NodeID) -> Bool
+pub fn GridSpatialIndex::stats(Self) -> SpatialIndexStats
+pub fn GridSpatialIndex::update(Self, @scenegraph.NodeID, @math.Rect2D) -> Bool
+
+pub(all) struct SpatialIndexStats {
+  item_count : Int
+  bucket_count : Int
+  candidate_count : Int
+  hit_count : Int
+} derive(Eq, @debug.Debug)
 
 pub(all) struct SpatialItem {
   id : @scenegraph.NodeID
