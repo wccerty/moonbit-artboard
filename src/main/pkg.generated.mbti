@@ -17,4 +17,3 @@ pub fn create_mobile_app_ui_artboard() -> @scenegraph.ArtboardDocument
 // Type aliases
 
 // Traits
-

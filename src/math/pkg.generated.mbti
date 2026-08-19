@@ -6,11 +6,21 @@ import {
 }
 
 // Values
+pub fn clamp_double(Double, Double, Double) -> Double
+
+pub fn distance_squared_to_segment(Vec2, Vec2, Vec2) -> Double
+
 pub fn evaluate_b_spline(Vec2, Vec2, Vec2, Vec2, Double) -> Vec2
 
 pub fn evaluate_catmull_rom(Vec2, Vec2, Vec2, Vec2, Double) -> Vec2
 
 pub fn interpolate_catmull_rom_spline(Array[Vec2], Int) -> Array[Vec2]
+
+pub fn nearly_equal(Double, Double, Double) -> Bool
+
+pub fn project_point_to_segment(Vec2, Vec2, Vec2) -> SegmentProjection
+
+pub fn signed_area(Array[Vec2]) -> Double
 
 pub fn triangulate_polygon(Array[Vec2]) -> Array[Triangle2D]
 
@@ -119,6 +129,12 @@ pub fn Rect2D::union(Self, Self) -> Self
 pub fn Rect2D::width(Self) -> Double
 pub impl Show for Rect2D
 
+pub(all) struct SegmentProjection {
+  point : Vec2
+  parameter : Double
+  distance_squared : Double
+} derive(Eq, @debug.Debug)
+
 pub(all) struct Triangle2D {
   p0 : Vec2
   p1 : Vec2
@@ -157,4 +173,3 @@ pub impl Show for Vec2
 // Type aliases
 
 // Traits
-

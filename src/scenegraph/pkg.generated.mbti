@@ -170,4 +170,3 @@ pub(all) enum VerticalConstraint {
 // Type aliases
 
 // Traits
-

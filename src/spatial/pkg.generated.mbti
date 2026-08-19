@@ -30,4 +30,3 @@ pub(all) struct SpatialItem {
 // Type aliases
 
 // Traits
-

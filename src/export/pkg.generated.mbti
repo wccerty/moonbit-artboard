@@ -40,4 +40,3 @@ pub(all) enum CanvasCommand {
 // Type aliases
 
 // Traits
-

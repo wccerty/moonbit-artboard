@@ -51,4 +51,3 @@ pub fn UndoManager::undo(Self, @scenegraph.ArtboardDocument) -> Bool
 // Type aliases
 
 // Traits
-

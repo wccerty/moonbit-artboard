@@ -45,4 +45,3 @@ type XmlTokenizer derive(@debug.Debug)
 // Type aliases
 
 // Traits
-

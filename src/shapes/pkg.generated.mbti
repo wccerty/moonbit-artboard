@@ -263,4 +263,3 @@ pub(all) struct TextLine {
 // Type aliases
 
 // Traits
-

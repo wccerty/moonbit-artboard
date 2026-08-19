@@ -76,4 +76,3 @@ pub fn ToolState::new(ToolKind) -> Self
 // Type aliases
 
 // Traits
-
