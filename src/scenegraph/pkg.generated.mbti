@@ -37,8 +37,10 @@ pub fn ArtboardDocument::get_world_matrix(Self, NodeID) -> @math.Matrix2D
 pub fn ArtboardDocument::group_nodes(Self, Array[NodeID]) -> NodeID?
 pub fn ArtboardDocument::new(String, Double, Double) -> Self
 pub fn ArtboardDocument::remove_node(Self, NodeID) -> Bool
+pub fn ArtboardDocument::traverse(Self) -> Array[TraversalEntry]
 pub fn ArtboardDocument::ungroup_node(Self, NodeID) -> Array[NodeID]
 pub fn ArtboardDocument::update_node(Self, Node) -> Unit
+pub fn ArtboardDocument::validate(Self) -> DocumentValidationReport
 
 pub(all) struct AutoLayoutConfig {
   direction : LayoutDirection
@@ -58,6 +60,11 @@ pub(all) struct ComponentMaster {
   id : NodeID
   name : String
   root_node_id : NodeID
+} derive(Eq, @debug.Debug)
+
+pub(all) struct DocumentValidationReport {
+  valid : Bool
+  issues : Array[ValidationIssue]
 } derive(Eq, @debug.Debug)
 
 pub(all) enum HorizontalConstraint {
@@ -157,6 +164,25 @@ pub(all) struct TextData {
   font_family : String
   align : String
   style : @shapes.Style
+} derive(Eq, @debug.Debug)
+
+pub(all) struct TraversalEntry {
+  id : NodeID
+  parent_id : NodeID?
+  world_transform : @math.Matrix2D
+  world_bounds : @math.Rect2D
+  depth : Int
+  inherited_opacity : Double
+} derive(@debug.Debug)
+
+pub(all) enum ValidationIssue {
+  DuplicateNodeId(String)
+  MissingParent(NodeID)
+  MissingChild(NodeID, NodeID)
+  ParentCycle(NodeID)
+  OrphanNode(NodeID)
+  InvalidDimension(NodeID)
+  RootMismatch(NodeID)
 } derive(Eq, @debug.Debug)
 
 pub(all) enum VerticalConstraint {
