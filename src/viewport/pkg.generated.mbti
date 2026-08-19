@@ -1,0 +1,58 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "wccerty/moonbit-artboard/src/viewport"
+
+import {
+  "moonbitlang/core/debug",
+  "wccerty/moonbit-artboard/src/math",
+  "wccerty/moonbit-artboard/src/scenegraph",
+  "wccerty/moonbit-artboard/src/spatial",
+}
+
+// Values
+
+// Errors
+
+// Types and methods
+pub(all) struct DirtyRegion {
+  mut bounds : @math.Rect2D
+  mut full_redraw : Bool
+  regions : Array[@math.Rect2D]
+} derive(Eq, @debug.Debug)
+pub fn DirtyRegion::empty() -> Self
+pub fn DirtyRegion::mark(Self, @math.Rect2D) -> Unit
+pub fn DirtyRegion::merge(Self, Self) -> Unit
+pub fn DirtyRegion::needs_redraw(Self) -> Bool
+
+pub(all) struct FrameMetrics {
+  elapsed_microseconds : Double
+  visited_nodes : Int
+  visible_nodes : Int
+  culled_nodes : Int
+  draw_ops : Int
+} derive(Eq, @debug.Debug)
+pub fn FrameMetrics::empty() -> Self
+pub fn FrameMetrics::new(Double, Int, Int, Int, Int) -> Self
+pub fn FrameMetrics::throughput(Self) -> Double
+
+pub(all) struct Viewport {
+  world_width : Double
+  world_height : Double
+  screen_width : Double
+  screen_height : Double
+  mut center : @math.Vec2
+  mut zoom : Double
+  device_pixel_ratio : Double
+  min_zoom : Double
+  max_zoom : Double
+} derive(Eq, @debug.Debug)
+pub fn Viewport::new(Double, Double, Double, Double) -> Self
+pub fn Viewport::pan_by(Self, @math.Vec2) -> Unit
+pub fn Viewport::screen_to_world(Self, @math.Vec2) -> @math.Vec2
+pub fn Viewport::visible_nodes(Self, @spatial.GridSpatialIndex) -> Array[@scenegraph.NodeID]
+pub fn Viewport::world_rect(Self) -> @math.Rect2D
+pub fn Viewport::world_to_screen(Self, @math.Vec2) -> @math.Vec2
+pub fn Viewport::zoom_at(Self, Double, @math.Vec2) -> Unit
+
+// Type aliases
+
+// Traits
